@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>    
+    <package name="com.haozileung.jbloger" namespace="/Home" extends="json-default" >
+		<action name="userAction" class="com.haozileung.jbloger.action.UserAction">
+			<result name="fetchUserList">/fetchUserList.jsp</result>
+			<result name="addUser" type="redirect">userAction!fetchUserList</result>
+			<result name="deleteUser" type="json"></result>
+		</action>
+	</package>	
+</struts>

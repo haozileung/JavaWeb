@@ -17,12 +17,12 @@ import com.haozileung.jbloger.dto.PassportInfo;
 import com.haozileung.jbloger.service.PassportService;
 
 /**
- * @author haozileung
+ * @ClassName: PassportServiceTest
+ * @Description: Passport服务层测试类
+ * @author haozi
+ * @date Aug 8, 2012 9:18:15 PM
  *
  */
-//使用junit4进行测试
-
-
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration({ "/spring/*-context.xml" }) 
 @Transactional  

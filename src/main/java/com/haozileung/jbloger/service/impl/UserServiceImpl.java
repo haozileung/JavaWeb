@@ -20,15 +20,18 @@ public class UserServiceImpl implements UserService {
 	
 	public void addUser(UserInfo userInfo) {
 		User user = new User(userInfo);
-		userRepository.saveUser(user);
+		userRepository.save(user);
 	}
 
 	public List<UserInfo> getUserList() {
-		return UserDoToDtoConvert.getInstance().dos2Dtos(userRepository.listUser());
+		return UserDoToDtoConvert.getInstance().dos2Dtos(userRepository.search(null));
 	}
 	
 	public void deleteUser(int id) {
-		userRepository.deleteUser(id);
+		User u = userRepository.getById(id);
+		if (u != null){
+			userRepository.delete(u);
+		}
 	}
 
 }

@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,14 @@ public abstract class AbstractDomainRepository<O extends DomainInterface, D exte
 		implements DomainObjectRepository<O, D> {
 
 	protected final Log logger = LogFactory.getLog(getClass());
+	
+	/**
+	 * 返回 Hibernate 会话实例
+	 * @return
+	 */
+	protected Session getSession(){
+		return sessionFactory.getCurrentSession();
+	}
 
 	/**
 	 * 获取领域对象的类
@@ -57,17 +66,17 @@ public abstract class AbstractDomainRepository<O extends DomainInterface, D exte
 
 	@Override
 	public Serializable save(O object) {
-		return sessionFactory.getCurrentSession().save(object);
+		return getSession().save(object);
 	}
 
 	@Override
 	public void update(O object) {
-		sessionFactory.getCurrentSession().update(object);
+		getSession().update(object);
 	}
 
 	@Override
 	public void delete(O object) {
-		sessionFactory.getCurrentSession().delete(object);
+		getSession().delete(object);
 	}
 
 	@Override
@@ -84,14 +93,16 @@ public abstract class AbstractDomainRepository<O extends DomainInterface, D exte
 	public O getById(Serializable id) throws ObjectNotFoundException {
 		O object = null;
 		try {
-			object = (O) sessionFactory.getCurrentSession().get(
+			object = (O) getSession().get(
 					getDomainObjectClass(), id);
 		} catch (HibernateException he) {
+			logger.error(getDomainObjectClassName()+"Hibernate异常！");
 			throw new BaseCheckedException("查询出错！请检查数据库连接！");
 		} finally {
 			if (null != object) {
 				return object;
 			} else {
+				logger.info(getDomainObjectClassName()+"没有找到对象！");
 				throw new ObjectNotFoundException(getDomainObjectClass(),
 						OBJECT_NOT_FOUND);
 			}
@@ -114,10 +125,10 @@ public abstract class AbstractDomainRepository<O extends DomainInterface, D exte
 	public int deleteByIds(List<Serializable> ids) {
 		int sum = 0;
 		for (Serializable id : ids) {
-			Object obj = sessionFactory.getCurrentSession().get(
+			Object obj = getSession().get(
 					getDomainObjectClass(), id);
 			if (obj != null) {
-				sessionFactory.getCurrentSession().delete(obj);
+				getSession().delete(obj);
 				sum++;
 			}
 		}
@@ -127,7 +138,7 @@ public abstract class AbstractDomainRepository<O extends DomainInterface, D exte
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<O> search(List<Criterion> crits) {
-		Criteria crit = sessionFactory.getCurrentSession().createCriteria(
+		Criteria crit = getSession().createCriteria(
 				getDomainObjectClass());
 		if (crits != null) {
 			for (Criterion ca : crits) {
@@ -139,7 +150,7 @@ public abstract class AbstractDomainRepository<O extends DomainInterface, D exte
 
 	@Override
 	public long count() {
-		return sessionFactory.getCurrentSession()
+		return getSession()
 				.createCriteria(getDomainObjectClass()).list().size();
 	}
 

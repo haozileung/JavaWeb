@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserInfo> getUserList() {
+		//Search Null for all Objects
 		return UserDoToDtoConvert.getInstance().dos2Dtos(userRepository.search(null));
 	}
 	

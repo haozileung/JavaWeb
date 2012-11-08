@@ -5,11 +5,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.haozileung.jbloger.common.domain.DomainInterface;
 import com.haozileung.jbloger.dto.UserInfo;
 
 @Entity
 @Table(name="t_ssh_user")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class User implements DomainInterface{
 
 	private static final long serialVersionUID = 8254592767704044523L;

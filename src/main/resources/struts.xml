@@ -4,33 +4,45 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<!-- <constant name="struts.enable.DynamicMethodInvocation" value="true" /> -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.objectFactory" value="spring" />
 
 	<package name="default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="auth"
+				class="com.haozileung.poker.common.webapp.interceptor.AuthorityInterceptor" />
+			<interceptor name="pass"
+				class="com.haozileung.poker.common.webapp.interceptor.PassInterceptor" />
+		</interceptors>
 
 		<default-action-ref name="index" />
 
 		<global-results>
 			<result name="error">/error.html</result>
+			<result name="login" type="redirectAction">
+				<param name="actionName">login</param>
+				<param name="namespace">/</param>
+			</result>
 		</global-results>
 
 		<global-exception-mappings>
 			<exception-mapping exception="java.lang.Exception"
 				result="error" />
 		</global-exception-mappings>
-
-		<action name="index">
-			<result type="redirectAction">
-				<param name="actionName">userAction!fetchUserList</param>
-				<param name="namespace">/Home</param>
+		<action name="index" class="com.haozileung.poker.action.user.IndexAction">
+			<result name="success">/index.jsp</result>
+		</action>
+		<action name="userLogin" class="com.haozileung.poker.action.user.LoginAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namesapce">/</param>
 			</result>
 		</action>
+		<action name="*">
+			<result>/{1}.jsp</result>
+		</action>
 	</package>
-
+	<!--Add packages here -->
 	<include file="struts/*.xml" />
-
-	 <!--Add packages here -->
-
 </struts>

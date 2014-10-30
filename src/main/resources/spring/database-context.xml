@@ -13,7 +13,7 @@
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="com.haozileung.jbloger.*" />
+		<property name="packagesToScan" value="com.haozileung.poker.*" />
 		<property name="hibernateProperties">
 			<props>
 				<!-- 指定Hibernate的连接方言 -->
@@ -73,7 +73,7 @@
 	<!-- 那些类的哪些方法参与事务 -->
 	<aop:config>
 		<aop:pointcut id="allManagerMethod"
-			expression="execution(public * com.haozileung.jbloger.service.impl.*.*(..))" />
+			expression="execution(public * com.haozileung.poker.service.impl.*.*(..))" />
 		<aop:advisor pointcut-ref="allManagerMethod" advice-ref="txAdvice" />
 	</aop:config>
 </beans>

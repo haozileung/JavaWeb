@@ -6,11 +6,8 @@ import com.haozileung.web.model.security.User;
 
 public class Comment {
 	private Long id;
-
 	private User author;
-
 	private String content;
-
 	private Date createTime;
 
 	public User getAuthor() {

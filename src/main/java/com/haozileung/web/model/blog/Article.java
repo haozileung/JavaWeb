@@ -6,7 +6,7 @@ import java.util.Set;
 import com.haozileung.web.model.security.User;
 
 public class Article {
-	private Long id;
+	private ArticleId id;
 	private User author;
 	private Set<Tag> tags;
 	private Catalog catalog;
@@ -29,7 +29,7 @@ public class Article {
 		this.type = ArticleType.DELETED;
 	}
 
-	public Long getId() {
+	public ArticleId getId() {
 		return id;
 	}
 

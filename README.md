@@ -1,6 +1,4 @@
 JavaWeb
 =======
 HaoziLeung
-A Project for Java Web test and develop.
-
-in master
+A project for Java Web technique test and develop.

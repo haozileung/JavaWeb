@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tools>
 	<toolbox scope="application">
+		<tool class="com.haozileung.web.velocity.MyTools" />
 	</toolbox>
 </tools>

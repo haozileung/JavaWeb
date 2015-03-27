@@ -18,7 +18,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
-import com.haozileung.web.utils.CacheKit;
+import com.haozileung.web.utils.CacheUtil;
 
 /**
  * Velocity模板上用于控制缓存的指令
@@ -60,12 +60,12 @@ public class CacheDirective extends Directive {
 		String tpl_key = key + "@" + region;
 		String body_tpl = body.literal();
 		String old_body_tpl = body_tpls.get(tpl_key);
-		String cache_html = CacheKit.get(region, key);
+		String cache_html = CacheUtil.get(region, key);
 		if (cache_html == null || !StringUtils.equals(body_tpl, old_body_tpl)) {
 			StringWriter sw = new StringWriter();
 			body.render(context, sw);
 			cache_html = sw.toString();
-			CacheKit.put(region, key, cache_html);
+			CacheUtil.put(region, key, cache_html);
 			body_tpls.put(tpl_key, body_tpl);
 		}
 		writer.write(cache_html);

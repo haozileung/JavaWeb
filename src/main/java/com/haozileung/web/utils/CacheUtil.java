@@ -9,10 +9,10 @@ import net.sf.ehcache.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CacheKit {
+public class CacheUtil {
 	private static volatile CacheManager cacheManager = CacheManager
 			.getInstance();
-	private static final Logger log = LoggerFactory.getLogger(CacheKit.class);
+	private static final Logger log = LoggerFactory.getLogger(CacheUtil.class);
 
 	private static Cache getOrAddCache(String cacheName) {
 		Cache cache = cacheManager.getCache(cacheName);

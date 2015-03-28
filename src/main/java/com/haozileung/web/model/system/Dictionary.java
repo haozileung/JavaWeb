@@ -8,5 +8,4 @@ public class Dictionary {
 	private String value;
 	private Integer orderNo;
 	private Set<Dictionary> dics;
-
 }

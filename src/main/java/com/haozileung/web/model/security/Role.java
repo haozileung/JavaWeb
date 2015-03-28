@@ -6,4 +6,5 @@ public class Role {
 	private Long id;
 	private String name;
 	private Set<Permission> permissions;
+	private Status status;
 }

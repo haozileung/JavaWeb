@@ -8,4 +8,5 @@ public class User {
 	private String password;
 	private String email;
 	private Set<Role> roles;
+	private Status status;
 }

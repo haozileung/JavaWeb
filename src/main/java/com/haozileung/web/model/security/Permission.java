@@ -4,6 +4,7 @@ public class Permission {
 	private Long id;
 	private PermissionType type;
 	private String value;
+	private Status status;
 
 	public String getValue() {
 		return value;

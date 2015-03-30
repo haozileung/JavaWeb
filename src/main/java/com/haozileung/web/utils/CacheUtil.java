@@ -12,7 +12,8 @@ import org.slf4j.LoggerFactory;
 public class CacheUtil {
 	private static volatile CacheManager cacheManager = CacheManager
 			.getInstance();
-	private static final Logger log = LoggerFactory.getLogger(CacheUtil.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(CacheUtil.class);
 
 	private static Cache getOrAddCache(String cacheName) {
 		Cache cache = cacheManager.getCache(cacheName);
@@ -20,11 +21,11 @@ public class CacheUtil {
 			synchronized (cacheManager) {
 				cache = cacheManager.getCache(cacheName);
 				if (cache == null) {
-					log.warn("Could not find cache config [" + cacheName
+					logger.warn("Could not find cache config [" + cacheName
 							+ "], using default.");
 					cacheManager.addCacheIfAbsent(cacheName);
 					cache = cacheManager.getCache(cacheName);
-					log.debug("Cache [" + cacheName + "] started.");
+					logger.debug("Cache [" + cacheName + "] started.");
 				}
 			}
 		}
@@ -58,8 +59,8 @@ public class CacheUtil {
 	 * @param cacheName
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public static List<String> getKeys(String cacheName) {
+	@SuppressWarnings("rawtypes")
+	public static List getKeys(String cacheName) {
 		return getOrAddCache(cacheName).getKeys();
 	}
 

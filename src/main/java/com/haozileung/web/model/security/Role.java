@@ -7,4 +7,20 @@ public class Role {
 	private String name;
 	private Set<Permission> permissions;
 	private Status status;
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Set<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
 }

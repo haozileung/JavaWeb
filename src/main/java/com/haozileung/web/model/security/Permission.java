@@ -22,4 +22,12 @@ public class Permission {
 	public void changePermissonType(PermissionType type) {
 		this.type = type;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
 }

@@ -9,8 +9,12 @@
 		overflowToDisk="true" eternal="true" timeToLiveSeconds="0"
 		timeToIdleSeconds="0" diskPersistent="true"
 		diskExpiryThreadIntervalSeconds="600" />
-	<cache name="authenticationCache" maxElementsInMemory="1000"
+	<cache name="authenticationCache" maxElementsInMemory="10000"
 		eternal="true" overflowToDisk="true" />
-	<cache name="authorizationCache" maxElementsInMemory="1000"
+	<cache name="authorizationCache" maxElementsInMemory="10000"
 		eternal="true" overflowToDisk="true" />
+	<cache name="dictionary" maxElementsInMemory="10000" eternal="true"
+		overflowToDisk="true" />
+	<cache name="menu" maxElementsInMemory="10000" eternal="true"
+		overflowToDisk="true" />
 </ehcache>

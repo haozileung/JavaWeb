@@ -19,7 +19,7 @@ public class UserRealm extends AuthorizingRealm {
 			throw new AuthorizationException(
 					"PrincipalCollection method argument cannot be null.");
 		}
-		String username = (String) getAvailablePrincipal(principals);
+		String username = (String) principals.getPrimaryPrincipal();
 		System.out.println("-------------------" + username);// 输出的其实是用户id
 
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -65,5 +65,18 @@ public class UserRealm extends AuthorizingRealm {
 				getName() // realm name
 		);
 		return authenticationInfo;
+	}
+
+	public void clearAllCachedAuthorizationInfo() {
+		getAuthorizationCache().clear();
+	}
+
+	public void clearAllCachedAuthenticationInfo() {
+		getAuthenticationCache().clear();
+	}
+
+	public void clearAllCache() {
+		clearAllCachedAuthenticationInfo();
+		clearAllCachedAuthorizationInfo();
 	}
 }

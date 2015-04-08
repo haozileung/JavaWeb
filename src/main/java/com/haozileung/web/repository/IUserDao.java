@@ -12,7 +12,8 @@ public interface IUserDao {
 
 	public void update(User u);
 
-	public List<User> query(Map<String, Object> params);
+	public List<User> query(Map<String, Object> params, Long start,
+			Integer limit);
 
 	public Long count(Map<String, Object> params);
 

@@ -12,7 +12,8 @@ public interface IPermissionDao {
 
 	public void update(Permission u);
 
-	public List<Permission> query(Map<String, Object> params);
+	public List<Permission> query(Map<String, Object> params, Long start,
+			Integer limit);
 
 	public Long count(Map<String, Object> params);
 

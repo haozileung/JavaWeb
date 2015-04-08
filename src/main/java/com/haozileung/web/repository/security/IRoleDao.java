@@ -1,8 +1,8 @@
-package com.haozileung.web.repository;
+package com.haozileung.web.repository.security;
 
-import java.util.List;
 import java.util.Map;
 
+import com.haozileung.web.dto.Page;
 import com.haozileung.web.model.security.Role;
 
 public interface IRoleDao {
@@ -12,10 +12,7 @@ public interface IRoleDao {
 
 	public void update(Role r);
 
-	public List<Role> query(Map<String, Object> params, Long start,
-			Integer limit);
-
-	public Long count(Map<String, Object> params);
+	public Page<Role> query(Map<String, Object> params, Page<Role> page);
 
 	public Role get(Long rid);
 }

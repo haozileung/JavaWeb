@@ -1,4 +1,4 @@
-package com.haozileung.web.repository.impl;
+package com.haozileung.web.repository.security.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -17,8 +17,9 @@ import org.springframework.stereotype.Repository;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.haozileung.web.dto.Page;
 import com.haozileung.web.model.security.User;
-import com.haozileung.web.repository.IUserDao;
+import com.haozileung.web.repository.security.IUserDao;
 
 @Repository
 public class UserDaoImpl extends JdbcDaoSupport implements IUserDao {
@@ -58,53 +59,11 @@ public class UserDaoImpl extends JdbcDaoSupport implements IUserDao {
 		logger.debug("更新角色 - id:{},name:{},email:{},password:{},status{}",
 				u.getId(), u.getName(), u.getEmail(), u.getPassword(),
 				u.getStatus());
-		getJdbcTemplate().update(
-				"update t_user set name = ?, email = ?, password = ?, status = ? where id = ?",
-				new Object[] { u.getName(), u.getEmail(), u.getPassword(),
-						u.getStatus(), u.getId() });
+		getJdbcTemplate()
+				.update("update t_user set name = ?, email = ?, password = ?, status = ? where id = ?",
+						new Object[] { u.getName(), u.getEmail(),
+								u.getPassword(), u.getStatus(), u.getId() });
 
-	}
-
-	@Override
-	public List<User> query(Map<String, Object> params, Long start,
-			Integer limit) {
-		StringBuffer sb = new StringBuffer("SELECT * FROM t_user");
-		List<String> where = Lists.newArrayList();
-		List<Object> args = Lists.newArrayList();
-		Set<String> keys = params.keySet();
-		for (String key : keys) {
-			if (!Strings.isNullOrEmpty(key)) {
-				where.add(" `" + key + "` = ? ");
-				args.add(params.get(key));
-			}
-		}
-		if (where.size() > 0) {
-			sb.append(" WHERE ").append(Joiner.on("AND").join(where));
-		}
-		if (start != null && limit != null && start >= 0 && limit > 0) {
-			sb.append(" LIMIT ").append(start).append(",").append(limit);
-		}
-		return getJdbcTemplate().queryForList(sb.toString(), args.toArray(),
-				User.class);
-	}
-
-	@Override
-	public Long count(Map<String, Object> params) {
-		StringBuffer sb = new StringBuffer("SELECT COUNT(*) FROM t_user");
-		List<String> where = Lists.newArrayList();
-		List<Object> args = Lists.newArrayList();
-		Set<String> keys = params.keySet();
-		for (String key : keys) {
-			if (!Strings.isNullOrEmpty(key)) {
-				where.add(" `" + key + "` = ? ");
-				args.add(params.get(key));
-			}
-		}
-		if (where.size() > 0) {
-			sb.append(" WHERE ").append(Joiner.on("AND").join(where));
-		}
-		return getJdbcTemplate().queryForObject(sb.toString(), args.toArray(),
-				Long.class);
 	}
 
 	@Override
@@ -112,5 +71,37 @@ public class UserDaoImpl extends JdbcDaoSupport implements IUserDao {
 		return getJdbcTemplate().queryForObject(
 				"SELECT * FROM t_user WHERE id = ?", new Object[] { uid },
 				User.class);
+	}
+
+	@Override
+	public Page<User> query(Map<String, Object> params, Page<User> page) {
+		StringBuffer count = new StringBuffer("SELECT COUNT(*) FROM t_user");
+		StringBuffer list = new StringBuffer("SELECT * FROM t_user");
+		StringBuffer where = new StringBuffer();
+		List<String> condition = Lists.newArrayList();
+		List<Object> args = Lists.newArrayList();
+		Set<String> keys = params.keySet();
+		for (String key : keys) {
+			if (!Strings.isNullOrEmpty(key)) {
+				condition.add(" `" + key + "` = ? ");
+				args.add(params.get(key));
+			}
+		}
+		if (condition.size() > 0) {
+			where.append(" WHERE ").append(Joiner.on("AND").join(condition));
+		}
+		count.append(where);
+		if (!Strings.isNullOrEmpty(page.getOrderBy())
+				&& !Strings.isNullOrEmpty(page.getOrder())) {
+			list.append(where).append(" ORDER BY ").append(page.getOrderBy())
+					.append(" ").append(page.getOrder());
+		}
+		list.append(" LIMIT ").append(page.getFirst())
+				.append(page.getPageSize());
+		page.setTotalCount(getJdbcTemplate().queryForObject(count.toString(),
+				args.toArray(), Long.class));
+		page.setResult(getJdbcTemplate().queryForList(list.toString(),
+				args.toArray(), User.class));
+		return page;
 	}
 }

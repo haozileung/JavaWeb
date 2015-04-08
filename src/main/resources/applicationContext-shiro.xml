@@ -74,7 +74,6 @@
 			<value>
 				/assets/** = noSessionCreation,anon
 				/login.html** = anon
-				/login** = anon
 				/**=user
 			</value>
 		</property>

@@ -1,8 +1,8 @@
-package com.haozileung.web.repository;
+package com.haozileung.web.repository.security;
 
-import java.util.List;
 import java.util.Map;
 
+import com.haozileung.web.dto.Page;
 import com.haozileung.web.model.security.User;
 
 public interface IUserDao {
@@ -12,10 +12,7 @@ public interface IUserDao {
 
 	public void update(User u);
 
-	public List<User> query(Map<String, Object> params, Long start,
-			Integer limit);
-
-	public Long count(Map<String, Object> params);
+	public Page<User> query(Map<String, Object> params, Page<User> page);
 
 	public User get(Long uid);
 }

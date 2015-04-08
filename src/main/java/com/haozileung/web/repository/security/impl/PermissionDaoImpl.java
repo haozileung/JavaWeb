@@ -1,4 +1,4 @@
-package com.haozileung.web.repository.impl;
+package com.haozileung.web.repository.security.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +17,10 @@ import org.springframework.stereotype.Repository;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.haozileung.web.dto.Page;
 import com.haozileung.web.model.security.Permission;
-import com.haozileung.web.repository.IPermissionDao;
-import com.haozileung.web.repository.IUserDao;
+import com.haozileung.web.repository.security.IPermissionDao;
+import com.haozileung.web.repository.security.IUserDao;
 
 @Repository
 public class PermissionDaoImpl extends JdbcDaoSupport implements IPermissionDao {
@@ -64,45 +65,37 @@ public class PermissionDaoImpl extends JdbcDaoSupport implements IPermissionDao 
 	}
 
 	@Override
-	public List<Permission> query(Map<String, Object> params, Long start,
-			Integer limit) {
-		StringBuffer sb = new StringBuffer("SELECT * FROM t_permission");
-		List<String> where = Lists.newArrayList();
+	public Page<Permission> query(Map<String, Object> params,
+			Page<Permission> page) {
+		StringBuffer count = new StringBuffer(
+				"SELECT COUNT(*) FROM t_permission");
+		StringBuffer list = new StringBuffer("SELECT * FROM t_permission");
+		StringBuffer where = new StringBuffer();
+		List<String> condition = Lists.newArrayList();
 		List<Object> args = Lists.newArrayList();
 		Set<String> keys = params.keySet();
 		for (String key : keys) {
 			if (!Strings.isNullOrEmpty(key)) {
-				where.add(" `" + key + "` = ? ");
+				condition.add(" `" + key + "` = ? ");
 				args.add(params.get(key));
 			}
 		}
-		if (where.size() > 0) {
-			sb.append(" WHERE ").append(Joiner.on("AND").join(where));
+		if (condition.size() > 0) {
+			where.append(" WHERE ").append(Joiner.on("AND").join(condition));
 		}
-		if (start != null && limit != null && start >= 0 && limit > 0) {
-			sb.append(" LIMIT ").append(start).append(",").append(limit);
+		count.append(where);
+		if (!Strings.isNullOrEmpty(page.getOrderBy())
+				&& !Strings.isNullOrEmpty(page.getOrder())) {
+			list.append(where).append(" ORDER BY ").append(page.getOrderBy())
+					.append(" ").append(page.getOrder());
 		}
-		return getJdbcTemplate().queryForList(sb.toString(), args.toArray(),
-				Permission.class);
-	}
-
-	@Override
-	public Long count(Map<String, Object> params) {
-		StringBuffer sb = new StringBuffer("SELECT COUNT(*) FROM t_permission");
-		List<String> where = Lists.newArrayList();
-		List<Object> args = Lists.newArrayList();
-		Set<String> keys = params.keySet();
-		for (String key : keys) {
-			if (!Strings.isNullOrEmpty(key)) {
-				where.add(" `" + key + "` = ? ");
-				args.add(params.get(key));
-			}
-		}
-		if (where.size() > 0) {
-			sb.append(" WHERE ").append(Joiner.on("AND").join(where));
-		}
-		return getJdbcTemplate().queryForObject(sb.toString(), args.toArray(),
-				Long.class);
+		list.append(" LIMIT ").append(page.getFirst())
+				.append(page.getPageSize());
+		page.setTotalCount(getJdbcTemplate().queryForObject(count.toString(),
+				args.toArray(), Long.class));
+		page.setResult(getJdbcTemplate().queryForList(list.toString(),
+				args.toArray(), Permission.class));
+		return page;
 	}
 
 	@Override

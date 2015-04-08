@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.haozileung.web.model.blog.Article;
-import com.haozileung.web.repository.IUserDao;
+import com.haozileung.web.repository.security.IUserDao;
 import com.haozileung.web.service.IArticleService;
 
 @Service

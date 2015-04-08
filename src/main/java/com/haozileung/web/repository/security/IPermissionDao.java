@@ -1,8 +1,8 @@
-package com.haozileung.web.repository;
+package com.haozileung.web.repository.security;
 
-import java.util.List;
 import java.util.Map;
 
+import com.haozileung.web.dto.Page;
 import com.haozileung.web.model.security.Permission;
 
 public interface IPermissionDao {
@@ -12,10 +12,8 @@ public interface IPermissionDao {
 
 	public void update(Permission u);
 
-	public List<Permission> query(Map<String, Object> params, Long start,
-			Integer limit);
-
-	public Long count(Map<String, Object> params);
+	public Page<Permission> query(Map<String, Object> params,
+			Page<Permission> page);
 
 	public Permission get(Long uid);
 }

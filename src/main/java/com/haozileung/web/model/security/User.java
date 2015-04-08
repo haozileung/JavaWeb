@@ -1,56 +1,55 @@
 package com.haozileung.web.model.security;
 
-import java.util.Set;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4896962180722446184L;
 	private Long id;
 	private String name;
 	private String password;
 	private String email;
-	private Set<Role> roles;
-	private Status status;
-
-	public void addRole(Role r) {
-		this.roles.add(r);
-	}
-
-	public void updateName(String name) {
-		this.name = name;
-	}
-
-	public void updatePassword(String password) {
-		this.password = password;
-	}
-
-	public void enable() {
-		this.status = Status.ENABLED;
-	}
-
-	public void disable() {
-		this.status = Status.DISABLED;
-	}
+	private Integer status;
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getPassword() {
 		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public Status getStatus() {
+	public Integer getStatus() {
 		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

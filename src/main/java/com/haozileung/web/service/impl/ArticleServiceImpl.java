@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.haozileung.web.model.blog.Article;
-import com.haozileung.web.repository.IArticleRepository;
+import com.haozileung.web.repository.IUserDao;
 import com.haozileung.web.service.IArticleService;
 
 @Service
@@ -20,7 +20,7 @@ public class ArticleServiceImpl implements IArticleService {
 			.getLogger(IArticleService.class);
 
 	@Autowired
-	private IArticleRepository articleRepository;
+	private IUserDao articleRepository;
 
 	@Override
 	public List<Article> pageSearch(Integer page, Integer pageSize) {

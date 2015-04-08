@@ -1,13 +1,18 @@
 package com.haozileung.web.model.system;
 
-import java.util.Set;
+import java.io.Serializable;
 
-public class Dictionary {
+public class Dictionary implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5060289370730885847L;
 	private Long id;
 	private String code;
 	private String value;
 	private Integer orderNo;
-	private Set<Dictionary> dics;
+	private Long parentId;
+	private Integer status;
 
 	public Long getId() {
 		return id;
@@ -41,11 +46,19 @@ public class Dictionary {
 		this.orderNo = orderNo;
 	}
 
-	public Set<Dictionary> getDics() {
-		return dics;
+	public Long getParentId() {
+		return parentId;
 	}
 
-	public void setDics(Set<Dictionary> dics) {
-		this.dics = dics;
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

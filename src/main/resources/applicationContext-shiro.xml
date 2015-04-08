@@ -45,9 +45,13 @@
 			value="#{T(org.apache.shiro.codec.Base64).decode('KSQVmsckmGU9ccz5UVCQxA==')}" />
 		<property name="cookie" ref="rememberMeCookie" />
 	</bean>
+	<bean id="sessionDao"
+		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+	</bean>
 	<!-- 会话管理器 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="sessionDAO" ref="sessionDao" />
 		<property name="sessionIdCookieEnabled" value="true" />
 		<property name="sessionIdCookie" ref="sessionIdCookie" />
 		<property name="globalSessionTimeout" value="1800000" />
@@ -69,6 +73,8 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/assets/** = noSessionCreation,anon
+				/login.html** = anon
+				/login** = anon
 				/**=user
 			</value>
 		</property>

@@ -2,28 +2,28 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="ehcache.xsd">
 	<diskStore path="java.io.tmpdir" />
+
 	<defaultCache maxElementsInMemory="10000" eternal="false"
 		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"
 		diskPersistent="false" diskExpiryThreadIntervalSeconds="120" />
-
-
 
 	<cache name="shiro-activeSessionCache" maxElementsInMemory="10000"
 		overflowToDisk="true" eternal="true" timeToLiveSeconds="0"
 		timeToIdleSeconds="0" diskPersistent="true"
 		diskExpiryThreadIntervalSeconds="600" />
 	<cache name="authenticationCache" maxElementsInMemory="10000"
-		eternal="true" overflowToDisk="true" />
+		overflowToDisk="true" eternal="true" timeToLiveSeconds="0"
+		timeToIdleSeconds="0" diskPersistent="true"
+		diskExpiryThreadIntervalSeconds="600" />
 	<cache name="authorizationCache" maxElementsInMemory="10000"
-		eternal="true" overflowToDisk="true" />
-
-
+		overflowToDisk="true" eternal="true" timeToLiveSeconds="0"
+		timeToIdleSeconds="0" diskPersistent="true"
+		diskExpiryThreadIntervalSeconds="600" />
 
 	<cache name="dictionary" maxElementsInMemory="10000" eternal="true"
 		overflowToDisk="true" />
 	<cache name="menu" maxElementsInMemory="10000" eternal="true"
 		overflowToDisk="true" />
-
 
 	<cache name="Article" maxElementsInMemory="10000" eternal="false"
 		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"

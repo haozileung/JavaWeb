@@ -15,6 +15,10 @@ public class Article {
 	private ArticleType type;
 	private String content;
 
+	public Article(ArticleId id) {
+		this.id = id;
+	}
+
 	/**
 	 * 添加評論
 	 */
@@ -59,5 +63,37 @@ public class Article {
 
 	public String getContent() {
 		return content;
+	}
+
+	public void setId(ArticleId id) {
+		this.id = id;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public void setType(ArticleType type) {
+		this.type = type;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

@@ -19,21 +19,21 @@ public class ArticleRepositoryImpl implements IArticleRepository {
 	@Cacheable(value = "Article", key = "#aid.value")
 	@Override
 	public Article load(ArticleId aid) {
-		logger.debug("開始從數據庫加載文章ID:{}", aid.getValue());
-		return null;
+		logger.debug("Loading Article ...{}", aid.getValue());
+		return new Article(aid);
 	}
 
 	@CacheEvict(value = "Article", key = "#aid.value")
 	public void delete(ArticleId aid) {
-		logger.debug("從數據庫刪除文章ID:{}", aid.getValue());
+		logger.debug("Delete Article ...{}", aid.getValue());
 	}
 
-	@CachePut(value = "Article", key = "#result.id.value")
+	@CachePut(value = "Article", key = "#art.id.value")
 	public Article update(Article art) {
 		return art;
 	}
 
-	@Cacheable(value = "Article", key = "#result.id.value")
+	@Cacheable(value = "Article", key = "#art.id.value")
 	public Article add(Article art) {
 		return art;
 	}

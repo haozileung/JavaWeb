@@ -32,6 +32,7 @@ public class IndexController {
 		page = MoreObjects.firstNonNull(page, 0);
 		pageSize = MoreObjects.firstNonNull(pageSize, 10);
 		model.addObject("articles", service.pageSearch(page, pageSize));
+		model.setViewName("/index");
 		return model;
 	}
 

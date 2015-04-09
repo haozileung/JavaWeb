@@ -68,12 +68,12 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="successUrl" value="/index.html" />
-		<property name="loginUrl" value="/login.html" />
+		<property name="loginUrl" value="/login" />
 		<property name="unauthorizedUrl" value="/401.html" />
 		<property name="filterChainDefinitions">
 			<value>
+				/login = anon
 				/assets/** = noSessionCreation,anon
-				/login.html** = anon
 				/**=user
 			</value>
 		</property>

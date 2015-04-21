@@ -1,8 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.haozileung.web</groupId>
-	<artifactId>web</artifactId>
+	<groupId>com.haozileung.manager</groupId>
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>web project</name>
@@ -235,4 +234,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<artifactId>web</artifactId>
 </project>

@@ -4,3 +4,5 @@
 .project
 web.iml
 .idea/
+/target/
+/bin/

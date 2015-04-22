@@ -4,10 +4,8 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * 名称操作辅助类
- * <p>
- * User: liyd Date: 13-12-6 Time: 下午5:17
  */
-public class NameUtils {
+public class NameUtil {
 
 	/**
 	 * 首字母大写
@@ -112,7 +110,7 @@ public class NameUtils {
 
 		int index = StringUtils.lastIndexOf(fileName, ".");
 		String suffix = StringUtils.substring(fileName, index);
-		String uqName = UUIDUtils.getUUID16() + suffix;
+		String uqName = UUIDUtil.getUUID16() + suffix;
 		return uqName;
 	}
 

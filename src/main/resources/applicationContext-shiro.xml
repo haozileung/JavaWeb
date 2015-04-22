@@ -23,9 +23,7 @@
 		<property name="credentialsMatcher" ref="credentialsMatcher" />
 		<property name="cachingEnabled" value="true" />
 		<property name="authenticationCachingEnabled" value="true" />
-		<property name="authenticationCacheName" value="authenticationCache" />
 		<property name="authorizationCachingEnabled" value="true" />
-		<property name="authorizationCacheName" value="authorizationCache" />
 	</bean>
 	<!-- 会话Cookie模板 -->
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">

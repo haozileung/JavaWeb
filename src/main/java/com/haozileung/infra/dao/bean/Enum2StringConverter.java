@@ -4,8 +4,6 @@ import com.haozileung.infra.dao.enums.IEnum;
 
 /**
  * IEnum到String转换器
- * <p>
- * Created by liyd on 8/10/14.
  */
 public class Enum2StringConverter implements TypeConverter {
 

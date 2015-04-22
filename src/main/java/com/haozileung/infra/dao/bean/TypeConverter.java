@@ -2,8 +2,6 @@ package com.haozileung.infra.dao.bean;
 
 /**
  * 数据类型转换接口
- * <p>
- * User: liyd Date: 13-5-9 下午12:04 version $Id: TypeConverter.java, v 0.1 Exp $
  */
 public interface TypeConverter {
 

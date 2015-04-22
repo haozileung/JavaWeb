@@ -6,9 +6,6 @@ import java.util.Map;
 
 /**
  * Java Bean 对象转换器配置
- * <p>
- * User: liyd Date: 13-5-10 下午1:56 version $Id: BeanConverterConfig.java, v 0.1
- * Exp $
  */
 public class BeanConverterConfig {
 

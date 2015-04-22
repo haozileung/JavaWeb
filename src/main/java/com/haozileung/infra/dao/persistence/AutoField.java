@@ -2,8 +2,6 @@ package com.haozileung.infra.dao.persistence;
 
 /**
  * 组装sql时的列信息
- * <p>
- * Created by liyd on 7/7/14.
  */
 public class AutoField {
 

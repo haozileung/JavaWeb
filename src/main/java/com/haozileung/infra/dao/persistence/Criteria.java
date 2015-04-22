@@ -8,8 +8,6 @@ import com.haozileung.infra.dao.exceptions.AssistantException;
 
 /**
  * sql操作Criteria
- * <p>
- * Created by liyd on 3/3/15.
  */
 public class Criteria {
 

@@ -54,8 +54,6 @@ import java.util.WeakHashMap;
  * 如果容器需要每个组件加载所有的设置和类，需要避免通过“共享的”classloader来提供类加载。
  * <p>
  * <p>
- * User: liyd Date: 13-5-9 下午4:10 version $Id: ContextClassLoaderLocal.java, v
- * 0.1 Exp $
  */
 public class ContextClassLoaderLocal {
 

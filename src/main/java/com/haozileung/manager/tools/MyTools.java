@@ -1,4 +1,4 @@
-package com.haozileung.infra.velocity;
+package com.haozileung.manager.tools;
 
 import org.apache.velocity.tools.Scope;
 import org.apache.velocity.tools.config.DefaultKey;

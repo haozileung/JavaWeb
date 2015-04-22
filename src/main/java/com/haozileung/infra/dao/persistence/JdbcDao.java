@@ -4,8 +4,6 @@ import java.util.List;
 
 /**
  * jdbc操作dao
- * <p>
- * Created by liyd on 3/3/15.
  */
 public interface JdbcDao {
 

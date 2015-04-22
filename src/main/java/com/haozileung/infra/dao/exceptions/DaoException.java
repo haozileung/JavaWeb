@@ -4,8 +4,6 @@ import com.haozileung.infra.dao.enums.IEnum;
 
 /**
  * 自定义异常类
- * <p>
- * Created by liyd on 6/27/14.
  */
 public class DaoException extends RuntimeException {
 

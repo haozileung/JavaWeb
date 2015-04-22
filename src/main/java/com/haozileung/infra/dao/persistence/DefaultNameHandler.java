@@ -2,12 +2,10 @@ package com.haozileung.infra.dao.persistence;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.haozileung.infra.utils.NameUtils;
+import com.haozileung.infra.utils.NameUtil;
 
 /**
  * 默认名称处理handler
- * <p>
- * User: liyd Date: 2/12/14 Time: 4:51 PM
  */
 public class DefaultNameHandler implements NameHandler {
 
@@ -20,7 +18,7 @@ public class DefaultNameHandler implements NameHandler {
 	@Override
 	public String getTableName(Class<?> entityClass) {
 		// Java属性的骆驼命名法转换回数据库下划线“_”分隔的格式
-		return NameUtils.getUnderlineName(entityClass.getSimpleName());
+		return NameUtil.getUnderlineName(entityClass.getSimpleName());
 	}
 
 	/**
@@ -42,7 +40,7 @@ public class DefaultNameHandler implements NameHandler {
 	 */
 	@Override
 	public String getColumnName(String fieldName) {
-		String underlineName = NameUtils.getUnderlineName(fieldName);
+		String underlineName = NameUtil.getUnderlineName(fieldName);
 		return underlineName;
 	}
 

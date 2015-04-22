@@ -2,8 +2,6 @@ package com.haozileung.infra.dao.exceptions;
 
 /**
  * 自定义异常类
- * <p>
- * Created by liyd on 6/27/14.
  */
 public class AssistantException extends DaoException {
 

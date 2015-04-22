@@ -8,18 +8,13 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import com.haozileung.infra.dao.pager.Pager;
 
 /**
  * 分页拦截器
- * <p>
- * Created by liyd on 6/26/14.
  */
 @Aspect
-@Component
-// 这里使用注解，也可以在配置文件里声明bean，一样
 public class PageControl {
 
 	/**

@@ -3,9 +3,9 @@ package com.haozileung.infra.utils;
 import java.util.UUID;
 
 /**
- * Created by liyd on 9/10/14.
+ * UUID生成工具
  */
-public class UUIDUtils {
+public class UUIDUtil {
 
 	public static String[] chars = new String[] { "a", "b", "c", "d", "e", "f",
 			"g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",

@@ -18,9 +18,6 @@ import com.haozileung.infra.dao.exceptions.AssistantException;
 
 /**
  * JavaBean信息缓存
- * <p>
- * User: liyd Date: 13-5-8 下午6:36 version $Id: IntrospectionCache.java, v 0.1
- * Exp $
  */
 public class IntrospectionCache {
 

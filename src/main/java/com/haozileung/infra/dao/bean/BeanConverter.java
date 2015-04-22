@@ -18,7 +18,6 @@ import com.haozileung.infra.dao.exceptions.AssistantException;
 /**
  * Java Bean 对象转换器
  * <p>
- * User: liyd Date: 13-5-8 下午4:29 version $Id: BeanConverter.java, v 0.1 Exp $
  */
 public class BeanConverter {
 

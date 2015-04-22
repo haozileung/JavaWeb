@@ -14,15 +14,13 @@ import com.haozileung.infra.dao.exceptions.AssistantException;
 
 /**
  * 类辅助
- * <p>
- * User: liyd Date: 2/12/14 Time: 10:08 PM
  */
-public class ClassUtils {
+public class ClassUtil {
 
 	/**
 	 * 日志对象
 	 */
-	private static final Logger LOG = LoggerFactory.getLogger(ClassUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ClassUtil.class);
 
 	/**
 	 * Map keyed by class containing CachedIntrospectionResults. Needs to be a

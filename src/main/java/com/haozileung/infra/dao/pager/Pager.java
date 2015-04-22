@@ -75,9 +75,6 @@ import com.haozileung.infra.dao.bean.BeanConverter;
  * </pre>
  * 
  * </p>
- *
- * @author liyd
- * @version $Id: Pager.java, v 0.1 2012-4-19 上午9:38:48 liyd Exp $
  */
 public class Pager implements Serializable {
 

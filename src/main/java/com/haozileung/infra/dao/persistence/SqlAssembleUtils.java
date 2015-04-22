@@ -16,10 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.haozileung.infra.dao.exceptions.AssistantException;
-import com.haozileung.infra.utils.ClassUtils;
+import com.haozileung.infra.utils.ClassUtil;
 
 /**
- * Created by liyd on 3/3/15.
+ * SQL组装工具类
  */
 public class SqlAssembleUtils {
 
@@ -235,7 +235,7 @@ public class SqlAssembleUtils {
 		}
 
 		// 获取属性信息
-		BeanInfo beanInfo = ClassUtils.getSelfBeanInfo(entity.getClass());
+		BeanInfo beanInfo = ClassUtil.getSelfBeanInfo(entity.getClass());
 		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
 
 		AutoField autoField;
@@ -567,7 +567,7 @@ public class SqlAssembleUtils {
 		StringBuilder columns = new StringBuilder();
 
 		// 获取属性信息
-		BeanInfo beanInfo = ClassUtils.getSelfBeanInfo(clazz);
+		BeanInfo beanInfo = ClassUtil.getSelfBeanInfo(clazz);
 		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
 
 		for (PropertyDescriptor pd : pds) {

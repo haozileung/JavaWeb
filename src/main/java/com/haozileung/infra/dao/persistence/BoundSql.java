@@ -4,8 +4,6 @@ import java.util.List;
 
 /**
  * sql信息对象
- * <p>
- * Created by liyd on 6/27/14.
  */
 public class BoundSql {
 

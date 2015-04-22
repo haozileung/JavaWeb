@@ -15,13 +15,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.CollectionUtils;
 
-import com.haozileung.infra.utils.ClassUtils;
-import com.haozileung.infra.utils.NameUtils;
+import com.haozileung.infra.utils.ClassUtil;
+import com.haozileung.infra.utils.NameUtil;
 
 /**
  * jdbc操作dao
- * <p>
- * Created by liyd on 3/3/15.
  */
 public class JdbcDaoImpl implements JdbcDao {
 
@@ -64,7 +62,7 @@ public class JdbcDaoImpl implements JdbcDao {
 			if (criteria == null) {
 				criteria = Criteria.create(entityClass);
 			}
-			criteria.setPKValueName(NameUtils.getCamelName(primaryName),
+			criteria.setPKValueName(NameUtil.getCamelName(primaryName),
 					pkValue);
 		}
 		final BoundSql boundSql = SqlAssembleUtils.buildInsertSql(entity,
@@ -297,7 +295,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		if (StringUtils.isBlank(rowMapperClass)) {
 			return BeanPropertyRowMapper.newInstance(clazz);
 		} else {
-			return (RowMapper<T>) ClassUtils.newInstance(rowMapperClass);
+			return (RowMapper<T>) ClassUtil.newInstance(rowMapperClass);
 		}
 	}
 

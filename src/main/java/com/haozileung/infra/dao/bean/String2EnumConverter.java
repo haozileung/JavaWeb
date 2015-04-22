@@ -5,7 +5,6 @@ import com.haozileung.infra.dao.enums.IEnum;
 /**
  * String 到 IEnum 转换器
  * <p>
- * User: liyd Date: 14-1-15 Time: 下午6:31
  */
 public class String2EnumConverter implements TypeConverter {
 

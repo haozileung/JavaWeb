@@ -1,11 +1,12 @@
 package com.haozileung.manager.utils;
 
-import com.google.common.base.Optional;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import com.google.common.base.Optional;
 
 public class MD5Util {
 	private final static Logger logger = LoggerFactory.getLogger(MD5Util.class);

@@ -14,18 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexController {
 
-    /**
-     * 首頁
-     *
-     * @return
-     */
-    @RequestMapping({"/index", "/", ""})
-    public ModelAndView index(ModelAndView model) {
-        return model;
-    }
+	/**
+	 * 首頁
+	 *
+	 * @return
+	 */
+	@RequestMapping({ "/index", "/", "" })
+	public ModelAndView index(ModelAndView model) {
+		return model;
+	}
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login(ModelAndView model) {
-        return model;
-    }
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login(ModelAndView model) {
+		return model;
+	}
 }

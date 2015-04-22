@@ -1,18 +1,16 @@
 package com.haozileung.manager.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * 
  * 接口或类的说明
- *
  */
 public abstract class PropertyReader {
 	private static Logger _log = LoggerFactory.getLogger(PropertyReader.class);
@@ -20,7 +18,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * Function:得到类加载器
-	 * 
+	 *
 	 * @param
 	 */
 	public static ClassLoader getClassLoader() {
@@ -29,7 +27,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * 获取类加载器
-	 * 
+	 *
 	 * @param cls
 	 * @return
 	 */
@@ -53,7 +51,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * 方法描述:获得属性文件的属性
-	 * 
+	 *
 	 * @param propertyFilePath
 	 *            属性文件(包括类路径)
 	 * @return 属性
@@ -76,7 +74,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * 方法描述:获得属性文件的属性
-	 * 
+	 *
 	 * @param propertyFilePath
 	 *            属性文件(包括类路径)
 	 * @return 属性
@@ -87,7 +85,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * <B>方法描述：</B>获得属性文件的属性
-	 * 
+	 *
 	 * @param propertyFilePath
 	 *            属性文件路径(包括类路径及文件系统路径)
 	 * @return 属性文件对象 Properties
@@ -109,7 +107,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * <B>方法描述：</B>获得属性
-	 * 
+	 *
 	 * @param cls
 	 * @param propertyFilePath
 	 * @param key
@@ -123,7 +121,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * <B>方法描述：</B>获得属性
-	 * 
+	 *
 	 * @param propertyFilePath
 	 *            属性文件(包括类路径)
 	 * @param key
@@ -136,7 +134,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * <B>方法描述：</B>获得属性文件中Key所对应的值
-	 * 
+	 *
 	 * @param propertyFilePath
 	 *            属性文件路径(包括类路径或文件系统中文件路径)
 	 * @param key
@@ -185,7 +183,7 @@ public abstract class PropertyReader {
 
 	/**
 	 * <B>方法描述：</B> 从文件系统加载属性文件
-	 * 
+	 *
 	 * @param propertyFilePath
 	 *            属性文件(文件系统的文件路径)
 	 * @return 属性

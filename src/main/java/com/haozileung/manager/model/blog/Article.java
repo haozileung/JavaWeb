@@ -1,9 +1,9 @@
 package com.haozileung.manager.model.blog;
 
-import com.haozileung.manager.model.security.User;
-
 import java.util.Date;
 import java.util.Set;
+
+import com.haozileung.manager.model.security.User;
 
 public class Article {
 	private ArticleId id;

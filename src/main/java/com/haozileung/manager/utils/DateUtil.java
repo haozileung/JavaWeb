@@ -1,14 +1,14 @@
 /**
- * 
+ *
  */
 package com.haozileung.manager.utils;
-
-import org.apache.commons.lang.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 日期处理工具
@@ -223,7 +223,6 @@ public class DateUtil {
 	}
 
 	/**
-	 *
 	 * @param dateStr
 	 *            格式为yy-mm
 	 * @return
@@ -431,7 +430,6 @@ public class DateUtil {
 	}
 
 	/**
-	 *
 	 * @param dateStr
 	 *            格式为yy-MM
 	 * @return
@@ -468,7 +466,6 @@ public class DateUtil {
 	}
 
 	/**
-	 *
 	 * @param date
 	 * @return
 	 */

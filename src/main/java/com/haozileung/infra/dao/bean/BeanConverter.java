@@ -3,7 +3,11 @@ package com.haozileung.infra.dao.bean;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +17,14 @@ import com.haozileung.infra.dao.exceptions.AssistantException;
 
 /**
  * Java Bean 对象转换器
- * <p/>
+ * <p>
  * User: liyd Date: 13-5-8 下午4:29 version $Id: BeanConverter.java, v 0.1 Exp $
  */
 public class BeanConverter {
 
-	/** 日志对象 */
+	/**
+	 * 日志对象
+	 */
 	private static final Logger LOG = LoggerFactory
 			.getLogger(BeanConverter.class);
 
@@ -88,7 +94,6 @@ public class BeanConverter {
 	 *            目标对象
 	 * @param source
 	 *            源对象
-	 *
 	 * @return 转换后的目标对象
 	 */
 	public static <T> T convert(T target, Object source) {
@@ -104,7 +109,6 @@ public class BeanConverter {
 	 *            源对象
 	 * @param ignoreProperties
 	 *            需要过滤的属性
-	 *
 	 * @return 转换后的目标对象
 	 */
 	public static <T> T convert(T target, Object source,
@@ -244,7 +248,7 @@ public class BeanConverter {
 
 	/**
 	 * 获取注册的转换器
-	 * 
+	 *
 	 * @return the converters
 	 */
 	public static Map<Class<?>, TypeConverter> getConverters() {

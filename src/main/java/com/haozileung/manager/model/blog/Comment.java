@@ -1,8 +1,8 @@
 package com.haozileung.manager.model.blog;
 
-import com.haozileung.manager.model.security.User;
-
 import java.util.Date;
+
+import com.haozileung.manager.model.security.User;
 
 public class Comment {
 	private Long id;

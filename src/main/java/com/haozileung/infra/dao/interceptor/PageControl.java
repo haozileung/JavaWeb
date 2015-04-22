@@ -15,7 +15,7 @@ import com.haozileung.infra.dao.pager.Pager;
 
 /**
  * 分页拦截器
- *
+ * <p>
  * Created by liyd on 6/26/14.
  */
 @Aspect
@@ -23,13 +23,19 @@ import com.haozileung.infra.dao.pager.Pager;
 // 这里使用注解，也可以在配置文件里声明bean，一样
 public class PageControl {
 
-	/** 分页线程变量 */
+	/**
+	 * 分页线程变量
+	 */
 	public static final ThreadLocal<Pager> LOCAL_PAGER = new ThreadLocal<Pager>();
 
-	/** 获取总记录数 */
+	/**
+	 * 获取总记录数
+	 */
 	private static final ThreadLocal<Boolean> GET_ITEMS_TOTAL = new ThreadLocal<Boolean>();
 
-	/** 数据库 */
+	/**
+	 * 数据库
+	 */
 	public static String DATABASE;
 
 	/**
@@ -79,7 +85,7 @@ public class PageControl {
 
 	/**
 	 * 获取Pager对象
-	 * 
+	 *
 	 * @return
 	 */
 	public static Pager getPager() {
@@ -149,7 +155,7 @@ public class PageControl {
 
 	/**
 	 * 获取分页查询sql
-	 * 
+	 *
 	 * @param sql
 	 * @param pager
 	 * @return

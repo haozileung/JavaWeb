@@ -1,6 +1,5 @@
 package com.haozileung.infra.dao.persistence;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,21 +20,29 @@ import com.haozileung.infra.dao.utils.NameUtils;
 
 /**
  * jdbc操作dao
- *
+ * <p>
  * Created by liyd on 3/3/15.
  */
 public class JdbcDaoImpl implements JdbcDao {
 
-	/** spring jdbcTemplate 对象 */
+	/**
+	 * spring jdbcTemplate 对象
+	 */
 	protected JdbcOperations jdbcTemplate;
 
-	/** 名称处理器，为空按默认执行 */
+	/**
+	 * 名称处理器，为空按默认执行
+	 */
 	protected NameHandler nameHandler;
 
-	/** rowMapper，为空按默认执行 */
+	/**
+	 * rowMapper，为空按默认执行
+	 */
 	protected String rowMapperClass;
 
-	/** 数据库方言 */
+	/**
+	 * 数据库方言
+	 */
 	protected String dialect;
 
 	/**
@@ -65,78 +71,88 @@ public class JdbcDaoImpl implements JdbcDao {
 				criteria, this.getNameHandler());
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update(new PreparedStatementCreator() {
-			public PreparedStatement createPreparedStatement(Connection con)
-					throws SQLException {
-				PreparedStatement ps = con.prepareStatement(boundSql.getSql(),
-						new String[] { boundSql.getPrimaryKey() });
-				int index = 0;
-				for (Object param : boundSql.getParams()) {
-					index++;
-					ps.setObject(index, param);
-				}
-				return ps;
-			}
-		}, keyHolder);
+		jdbcTemplate.update(
+				con -> {
+					PreparedStatement ps = con.prepareStatement(
+							boundSql.getSql(),
+							new String[] { boundSql.getPrimaryKey() });
+					int index = 0;
+					for (Object param : boundSql.getParams()) {
+						index++;
+						ps.setObject(index, param);
+					}
+					return ps;
+				}, keyHolder);
 		return keyHolder.getKey().longValue();
 	}
 
+	@Override
 	public Long insert(Object entity) {
 		return this.insert(entity, null);
 	}
 
+	@Override
 	public Long insert(Criteria criteria) {
 		return this.insert(null, criteria);
 	}
 
+	@Override
 	public void save(Object entity) {
 		final BoundSql boundSql = SqlAssembleUtils.buildInsertSql(entity, null,
 				this.getNameHandler());
 		jdbcTemplate.update(boundSql.getSql(), boundSql.getParams().toArray());
 	}
 
+	@Override
 	public void save(Criteria criteria) {
 		final BoundSql boundSql = SqlAssembleUtils.buildInsertSql(null,
 				criteria, this.getNameHandler());
 		jdbcTemplate.update(boundSql.getSql(), boundSql.getParams().toArray());
 	}
 
+	@Override
 	public void update(Criteria criteria) {
 		BoundSql boundSql = SqlAssembleUtils.buildUpdateSql(null, criteria,
 				this.getNameHandler());
 		jdbcTemplate.update(boundSql.getSql(), boundSql.getParams().toArray());
 	}
 
+	@Override
 	public void update(Object entity) {
 		BoundSql boundSql = SqlAssembleUtils.buildUpdateSql(entity, null,
 				this.getNameHandler());
 		jdbcTemplate.update(boundSql.getSql(), boundSql.getParams().toArray());
 	}
 
+	@Override
 	public void delete(Criteria criteria) {
 		BoundSql boundSql = SqlAssembleUtils.buildDeleteSql(null, criteria,
 				this.getNameHandler());
 		jdbcTemplate.update(boundSql.getSql(), boundSql.getParams().toArray());
 	}
 
+	@Override
 	public void delete(Object entity) {
 		BoundSql boundSql = SqlAssembleUtils.buildDeleteSql(entity, null,
 				this.getNameHandler());
 		jdbcTemplate.update(boundSql.getSql(), boundSql.getParams().toArray());
 	}
 
+	@Override
 	public void delete(Class<?> clazz, Long id) {
 		BoundSql boundSql = SqlAssembleUtils.buildDeleteSql(clazz, id,
 				this.getNameHandler());
 		jdbcTemplate.update(boundSql.getSql(), boundSql.getParams().toArray());
 	}
 
+	@Override
 	public void deleteAll(Class<?> clazz) {
 		String tableName = this.getNameHandler().getTableName(clazz);
 		String sql = "TRUNCATE TABLE " + tableName;
 		jdbcTemplate.execute(sql);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> List<T> queryList(Criteria criteria) {
 		BoundSql boundSql = SqlAssembleUtils.buildListSql(null, criteria,
@@ -147,6 +163,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		return (List<T>) list;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> List<T> queryList(T entity) {
 		BoundSql boundSql = SqlAssembleUtils.buildListSql(entity, null,
@@ -156,6 +173,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		return (List<T>) list;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> List<T> queryList(T entity, Criteria criteria) {
 		BoundSql boundSql = SqlAssembleUtils.buildListSql(entity, criteria,
@@ -165,6 +183,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		return (List<T>) list;
 	}
 
+	@Override
 	public int queryCount(Object entity, Criteria criteria) {
 		BoundSql boundSql = SqlAssembleUtils.buildCountSql(entity, criteria,
 				this.getNameHandler());
@@ -172,6 +191,7 @@ public class JdbcDaoImpl implements JdbcDao {
 				.getParams().toArray(), int.class);
 	}
 
+	@Override
 	public int queryCount(Object entity) {
 		BoundSql boundSql = SqlAssembleUtils.buildCountSql(entity, null,
 				this.getNameHandler());
@@ -179,6 +199,7 @@ public class JdbcDaoImpl implements JdbcDao {
 				.getParams().toArray(), int.class);
 	}
 
+	@Override
 	public int queryCount(Criteria criteria) {
 		BoundSql boundSql = SqlAssembleUtils.buildCountSql(null, criteria,
 				this.getNameHandler());
@@ -186,6 +207,7 @@ public class JdbcDaoImpl implements JdbcDao {
 				.getParams().toArray(), int.class);
 	}
 
+	@Override
 	public <T> T get(Class<T> clazz, Long id) {
 		BoundSql boundSql = SqlAssembleUtils.buildByIdSql(clazz, id, null,
 				this.getNameHandler());
@@ -198,6 +220,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		return list.iterator().next();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T get(Criteria criteria, Long id) {
 		BoundSql boundSql = SqlAssembleUtils.buildByIdSql(null, id, criteria,
@@ -212,6 +235,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		return list.iterator().next();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T querySingleResult(T entity) {
 		BoundSql boundSql = SqlAssembleUtils.buildQuerySql(entity, null,
@@ -226,6 +250,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		return (T) list.iterator().next();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T querySingleResult(Criteria criteria) {
 		BoundSql boundSql = SqlAssembleUtils.buildQuerySql(null, criteria,
@@ -240,6 +265,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		return (T) list.iterator().next();
 	}
 
+	@Override
 	public byte[] getBlobValue(Class<?> clazz, String fieldName, Long id) {
 		String tableName = nameHandler.getTableName(clazz);
 		String primaryName = nameHandler.getPKName(clazz);
@@ -248,7 +274,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		String sql = String.format(tmp_sql, columnName, tableName, primaryName);
 		return jdbcTemplate.query(sql, new Object[] { id },
 				new ResultSetExtractor<byte[]>() {
-
+					@Override
 					public byte[] extractData(ResultSet rs)
 							throws SQLException, DataAccessException {
 						if (rs.next()) {
@@ -288,12 +314,12 @@ public class JdbcDaoImpl implements JdbcDao {
 		return this.nameHandler;
 	}
 
-	public void setJdbcTemplate(JdbcOperations jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-
 	public void setNameHandler(NameHandler nameHandler) {
 		this.nameHandler = nameHandler;
+	}
+
+	public void setJdbcTemplate(JdbcOperations jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	public void setRowMapperClass(String rowMapperClass) {

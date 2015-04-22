@@ -1,11 +1,10 @@
 /**
- * 
+ *
  */
 package com.haozileung.manager.model.blog;
 
 /**
  * @author Haozi
- *
  */
 public class ArticleId {
 	private Long value;

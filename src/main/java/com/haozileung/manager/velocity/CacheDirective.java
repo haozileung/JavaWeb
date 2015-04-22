@@ -1,9 +1,14 @@
 /**
- * 
+ *
  */
 package com.haozileung.manager.velocity;
 
-import com.haozileung.manager.utils.CacheUtil;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Hashtable;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -13,15 +18,11 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Hashtable;
+import com.haozileung.manager.utils.CacheUtil;
 
 /**
  * Velocity模板上用于控制缓存的指令
- * 
+ *
  * @author Winter Lau
  * @date 2009-3-16 下午04:40:19
  */

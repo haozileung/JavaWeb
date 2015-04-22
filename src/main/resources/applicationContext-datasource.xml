@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns="http://www.springframework.org/schema/beans"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns="http://www.springframework.org/schema/beans"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd
@@ -13,37 +13,37 @@
             http://www.springframework.org/schema/tx/spring-tx.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
-	<context:annotation-config />
+	<context:annotation-config/>
 	<!-- 设置使用注解的类所在的jar包 -->
-	<context:component-scan base-package="com.haozileung.manager.repository" />
+	<context:component-scan base-package="com.haozileung.manager.repository"/>
 	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:jdbc.properties" />
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties"/>
 	</bean>
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">
-		<property name="url" value="${db.url}" />
-		<property name="username" value="${db.username}" />
-		<property name="password" value="${db.password}" />
-		<property name="filters" value="stat,wall" />
-		<property name="maxActive" value="20" />
-		<property name="initialSize" value="1" />
-		<property name="maxWait" value="60000" />
-		<property name="minIdle" value="1" />
-		<property name="timeBetweenEvictionRunsMillis" value="60000" />
-		<property name="minEvictableIdleTimeMillis" value="300000" />
-		<property name="validationQuery" value="SELECT 'x'" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="false" />
-		<property name="testOnReturn" value="false" />
-		<property name="poolPreparedStatements" value="true" />
-		<property name="maxOpenPreparedStatements" value="20" />
+		  init-method="init" destroy-method="close">
+		<property name="url" value="${db.url}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+		<property name="filters" value="stat,wall"/>
+		<property name="maxActive" value="20"/>
+		<property name="initialSize" value="1"/>
+		<property name="maxWait" value="60000"/>
+		<property name="minIdle" value="1"/>
+		<property name="timeBetweenEvictionRunsMillis" value="60000"/>
+		<property name="minEvictableIdleTimeMillis" value="300000"/>
+		<property name="validationQuery" value="SELECT 'x'"/>
+		<property name="testWhileIdle" value="true"/>
+		<property name="testOnBorrow" value="false"/>
+		<property name="testOnReturn" value="false"/>
+		<property name="poolPreparedStatements" value="true"/>
+		<property name="maxOpenPreparedStatements" value="20"/>
 	</bean>
 	<bean id="druid-stat-interceptor"
-		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+		  class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
 	</bean>
 	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-		scope="prototype">
+		  scope="prototype">
 		<property name="patterns">
 			<list>
 				<value>com.haozileung.manager.service.*</value>
@@ -53,24 +53,24 @@
 	</bean>
 	<aop:config>
 		<aop:advisor advice-ref="druid-stat-interceptor"
-			pointcut-ref="druid-stat-pointcut" />
+					 pointcut-ref="druid-stat-pointcut"/>
 	</aop:config>
 	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		abstract="false" lazy-init="default">
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		  abstract="false" lazy-init="default">
 		<property name="dataSource">
-			<ref bean="dataSource" />
+			<ref bean="dataSource"/>
 		</property>
 	</bean>
-	<tx:annotation-driven transaction-manager="txManager" />
+	<tx:annotation-driven transaction-manager="txManager"/>
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource">
-			<ref bean="dataSource" />
+			<ref bean="dataSource"/>
 		</property>
 	</bean>
 	<bean id="jdbcDao" class="com.haozileung.infra.dao.persistence.JdbcDaoImpl">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
 	</bean>
 	<!--需要分页时声明 -->
-	<bean id="pageControl" class="com.haozileung.infra.dao.interceptor.PageControl" />
+	<bean id="pageControl" class="com.haozileung.infra.dao.interceptor.PageControl"/>
 </beans>

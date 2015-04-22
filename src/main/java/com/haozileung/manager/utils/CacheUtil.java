@@ -1,12 +1,13 @@
 package com.haozileung.manager.utils;
 
+import java.util.List;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 public class CacheUtil {
 	private static final Logger logger = LoggerFactory
@@ -32,7 +33,6 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
 	 * @param cacheName
 	 * @param key
 	 * @param value
@@ -42,7 +42,6 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
 	 * @param cacheName
 	 * @param key
 	 * @return
@@ -54,7 +53,6 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
 	 * @param cacheName
 	 * @return
 	 */
@@ -64,7 +62,6 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
 	 * @param cacheName
 	 * @param key
 	 */
@@ -73,7 +70,6 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
 	 * @param cacheName
 	 */
 	public static void removeAll(String cacheName) {

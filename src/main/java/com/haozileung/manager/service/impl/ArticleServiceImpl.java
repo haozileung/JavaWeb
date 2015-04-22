@@ -16,16 +16,16 @@ import com.haozileung.manager.service.IArticleService;
 @Transactional
 public class ArticleServiceImpl implements IArticleService {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(IArticleService.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(IArticleService.class);
 
-    @Autowired
-    private JdbcDao dao;
+	@Autowired
+	private JdbcDao dao;
 
-    @Override
-    public List<Article> pageSearch(Integer page, Integer pageSize) {
-        logger.debug("service test...");
-        return null;
-    }
+	@Override
+	public List<Article> pageSearch(Integer page, Integer pageSize) {
+		logger.debug("service test...");
+		return null;
+	}
 
 }

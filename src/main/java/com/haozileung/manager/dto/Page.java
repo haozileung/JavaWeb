@@ -1,15 +1,13 @@
 package com.haozileung.manager.dto;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
- * 
- * @author Haozi
- *
  * @param <T>
+ * @author Haozi
  */
 public class Page<T> {
 	// 公共变量 //

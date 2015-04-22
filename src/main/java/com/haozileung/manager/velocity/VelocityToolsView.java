@@ -1,5 +1,11 @@
 package com.haozileung.manager.velocity;
 
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.config.ConfigurationUtils;
@@ -7,11 +13,6 @@ import org.apache.velocity.tools.config.FactoryConfiguration;
 import org.apache.velocity.tools.view.ViewToolContext;
 import org.apache.velocity.tools.view.ViewToolManager;
 import org.springframework.web.servlet.view.velocity.VelocityLayoutView;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 public class VelocityToolsView extends VelocityLayoutView {
 

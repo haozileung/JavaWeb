@@ -4,20 +4,24 @@ import com.haozileung.infra.dao.enums.IEnum;
 
 /**
  * 自定义异常类
- *
+ * <p>
  * Created by liyd on 6/27/14.
  */
 public class DaoException extends RuntimeException {
 
 	/**
-	 * 
-	 */
+     *
+     */
 	private static final long serialVersionUID = 8654030789221463350L;
 
-	/** Exception code */
+	/**
+	 * Exception code
+	 */
 	protected String resultCode = "UN_KNOWN_EXCEPTION";
 
-	/** Exception message */
+	/**
+	 * Exception message
+	 */
 	protected String resultMsg = "未知异常";
 
 	/**

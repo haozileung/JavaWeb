@@ -2,75 +2,93 @@ package com.haozileung.infra.dao.persistence;
 
 /**
  * 组装sql时的列信息
- *
+ * <p>
  * Created by liyd on 7/7/14.
  */
 public class AutoField {
-    
-    /** sql中的update 字段 */
-    public static final int UPDATE_FIELD = 1;
 
-    /** sql中的where 字段 */
-    public static final int WHERE_FIELD  = 2;
+	/**
+	 * sql中的update 字段
+	 */
+	public static final int UPDATE_FIELD = 1;
 
-    /** 排序字段 */
-    public static final int ORDER_BY_FIELD = 3;
+	/**
+	 * sql中的where 字段
+	 */
+	public static final int WHERE_FIELD = 2;
 
-    /** 主键值名称 例如oracle的序列名，非直接主键值 */
-    public static final int PK_VALUE_NAME = 4;
+	/**
+	 * 排序字段
+	 */
+	public static final int ORDER_BY_FIELD = 3;
 
-    /** 名称 */
-    private String          name;
+	/**
+	 * 主键值名称 例如oracle的序列名，非直接主键值
+	 */
+	public static final int PK_VALUE_NAME = 4;
 
-    /** 操作符 and or */
-    private String          sqlOperator;
+	/**
+	 * 名称
+	 */
+	private String name;
 
-    /** 本身操作符 值大于、小于、in等 */
-    private String          fieldOperator;
+	/**
+	 * 操作符 and or
+	 */
+	private String sqlOperator;
 
-    /** 值 */
-    private Object[]        values;
+	/**
+	 * 本身操作符 值大于、小于、in等
+	 */
+	private String fieldOperator;
 
-    /** 类型 对应上面申明的常量 */
-    private int             type;
+	/**
+	 * 值
+	 */
+	private Object[] values;
 
-    public String getName() {
-        return name;
-    }
+	/**
+	 * 类型 对应上面申明的常量
+	 */
+	private int type;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Object[] getValues() {
-        return values;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setValues(Object[] values) {
-        this.values = values;
-    }
+	public Object[] getValues() {
+		return values;
+	}
 
-    public int getType() {
-        return type;
-    }
+	public void setValues(Object[] values) {
+		this.values = values;
+	}
 
-    public void setType(int type) {
-        this.type = type;
-    }
+	public int getType() {
+		return type;
+	}
 
-    public String getSqlOperator() {
-        return sqlOperator;
-    }
+	public void setType(int type) {
+		this.type = type;
+	}
 
-    public void setSqlOperator(String sqlOperator) {
-        this.sqlOperator = sqlOperator;
-    }
+	public String getSqlOperator() {
+		return sqlOperator;
+	}
 
-    public String getFieldOperator() {
-        return fieldOperator;
-    }
+	public void setSqlOperator(String sqlOperator) {
+		this.sqlOperator = sqlOperator;
+	}
 
-    public void setFieldOperator(String fieldOperator) {
-        this.fieldOperator = fieldOperator;
-    }
+	public String getFieldOperator() {
+		return fieldOperator;
+	}
+
+	public void setFieldOperator(String fieldOperator) {
+		this.fieldOperator = fieldOperator;
+	}
 }

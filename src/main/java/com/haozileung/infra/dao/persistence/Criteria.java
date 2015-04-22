@@ -8,27 +8,39 @@ import com.haozileung.infra.dao.exceptions.AssistantException;
 
 /**
  * sql操作Criteria
- * 
+ * <p>
  * Created by liyd on 3/3/15.
  */
 public class Criteria {
 
-	/** 操作的实体类 */
+	/**
+	 * 操作的实体类
+	 */
 	private Class<?> entityClass;
 
-	/** 操作的字段 */
+	/**
+	 * 操作的字段
+	 */
 	private List<AutoField> autoFields;
 
-	/** 排序字段 */
+	/**
+	 * 排序字段
+	 */
 	private List<AutoField> orderByFields;
 
-	/** 白名单 */
+	/**
+	 * 白名单
+	 */
 	private List<String> includeFields;
 
-	/** 黑名单 */
+	/**
+	 * 黑名单
+	 */
 	private List<String> excludeFields;
 
-	/** where标识 */
+	/**
+	 * where标识
+	 */
 	private boolean isWhere = false;
 
 	/**
@@ -44,7 +56,7 @@ public class Criteria {
 
 	/**
 	 * 初始化
-	 * 
+	 *
 	 * @param clazz
 	 * @return
 	 */
@@ -130,7 +142,7 @@ public class Criteria {
 
 	/**
 	 * 设置主键值名称，如oracle序列名，非直接的值
-	 * 
+	 *
 	 * @param pkName
 	 * @param valueName
 	 * @return

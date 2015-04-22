@@ -1,4 +1,4 @@
-package com.haozileung.infra.dao.utils;
+package com.haozileung.infra.utils;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

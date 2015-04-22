@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.haozileung.infra.dao.exceptions.AssistantException;
-import com.haozileung.infra.dao.utils.ClassUtils;
+import com.haozileung.infra.utils.ClassUtils;
 
 /**
  * Created by liyd on 3/3/15.

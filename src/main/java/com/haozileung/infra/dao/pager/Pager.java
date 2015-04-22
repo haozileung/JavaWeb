@@ -101,7 +101,7 @@ public class Pager implements Serializable {
 	/**
 	 * 总记录数
 	 */
-	private int itemsTotal;
+	private Long itemsTotal;
 
 	/**
 	 * 每页记录数
@@ -119,7 +119,7 @@ public class Pager implements Serializable {
 	public Pager() {
 		this.itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
 		this.curPage = 1;
-		this.itemsTotal = Integer.MAX_VALUE;
+		this.itemsTotal = Long.MAX_VALUE;
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class Pager implements Serializable {
 	 *
 	 * @return 总项数
 	 */
-	public int getItemsTotal() {
+	public Long getItemsTotal() {
 		return this.itemsTotal;
 	}
 
@@ -195,7 +195,7 @@ public class Pager implements Serializable {
 	 *            总项数
 	 * @return 设置以后的总项数
 	 */
-	public int setItemsTotal(int items) {
+	public Long setItemsTotal(Long items) {
 		this.itemsTotal = (items >= 0) ? items : 0;
 		setCurPage(curPage);
 		return this.itemsTotal;
@@ -244,12 +244,12 @@ public class Pager implements Serializable {
 	 *
 	 * @return 当前页的长度
 	 */
-	public int getActualLength() {
+	public Long getActualLength() {
 		if (curPage > 0) {
 			return Math.min(itemsPerPage * curPage, itemsTotal)
 					- (itemsPerPage * (curPage - 1));
 		} else {
-			return 0;
+			return 0L;
 		}
 	}
 
@@ -271,11 +271,11 @@ public class Pager implements Serializable {
 	 *
 	 * @return 末项序号
 	 */
-	public int getEndIndex() {
+	public Long getEndIndex() {
 		if (curPage > 0) {
 			return Math.min(itemsPerPage * curPage, itemsTotal);
 		} else {
-			return 0;
+			return 0L;
 		}
 	}
 

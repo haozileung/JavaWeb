@@ -2,7 +2,7 @@ package com.haozileung.infra.dao.persistence;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.haozileung.infra.dao.utils.NameUtils;
+import com.haozileung.infra.utils.NameUtils;
 
 /**
  * 默认名称处理handler
@@ -10,11 +10,6 @@ import com.haozileung.infra.dao.utils.NameUtils;
  * User: liyd Date: 2/12/14 Time: 4:51 PM
  */
 public class DefaultNameHandler implements NameHandler {
-
-	/**
-	 * 主键后缀
-	 */
-	private static final String PRI_SUFFIX = "_ID";
 
 	/**
 	 * 根据实体名获取表名
@@ -36,10 +31,7 @@ public class DefaultNameHandler implements NameHandler {
 	 */
 	@Override
 	public String getPKName(Class<?> entityClass) {
-		String underlineName = NameUtils.getUnderlineName(entityClass
-				.getSimpleName());
-		// 主键以表名加上“_id” 如user表主键即“user_id”
-		return underlineName + PRI_SUFFIX;
+		return "id";
 	}
 
 	/**

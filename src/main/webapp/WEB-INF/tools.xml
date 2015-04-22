@@ -2,6 +2,6 @@
 <!DOCTYPE tools>
 <tools>
     <toolbox scope="application">
-        <tool class="com.haozileung.manager.velocity.MyTools"/>
+        <tool class="com.haozileung.infra.velocity.MyTools"/>
     </toolbox>
 </tools>

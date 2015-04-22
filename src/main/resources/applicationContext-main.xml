@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:cache="http://www.springframework.org/schema/cache"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd
-
-
-
-
-            http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context.xsd 
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
             http://www.springframework.org/schema/cache 
             http://www.springframework.org/schema/cache/spring-cache.xsd">
-    <context:annotation-config/>
-    <!-- 设置使用注解的类所在的jar包 -->
-    <context:component-scan
-            base-package="com.haozileung.manager.service"/>
+	<context:annotation-config />
+	<!-- 设置使用注解的类所在的jar包 -->
+	<context:component-scan base-package="com.haozileung.manager.service" />
+	<aop:aspectj-autoproxy />
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="useCodeAsDefaultMessage" value="true" />
+		<property name="basenames">
+			<list>
+				<value>message/MessageResource</value>
+			</list>
+		</property>
+	</bean>
 
-    <bean id="messageSource"
-          class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="useCodeAsDefaultMessage" value="true"/>
-        <property name="basenames">
-            <list>
-                <value>message/MessageResource</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ehCacheManagerFactoryBean"
-          class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="acceptExisting" value="true"/>
-        <property name="shared" value="true"/>
-        <property name="configLocation" value="classpath:ehcache.xml"/>
-    </bean>
-    <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-        <property name="cacheManager" ref="ehCacheManagerFactoryBean"/>
-        <property name="transactionAware" value="true"/>
-    </bean>
-    <cache:annotation-driven cache-manager="springCacheManager"
-                             proxy-target-class="true"/>
+	<bean id="ehCacheManagerFactoryBean"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="acceptExisting" value="true" />
+		<property name="shared" value="true" />
+		<property name="configLocation" value="classpath:ehcache.xml" />
+	</bean>
+	<bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehCacheManagerFactoryBean" />
+		<property name="transactionAware" value="true" />
+	</bean>
+	<cache:annotation-driven cache-manager="springCacheManager"
+		proxy-target-class="true" />
 </beans>

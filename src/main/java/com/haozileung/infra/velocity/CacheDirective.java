@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.haozileung.manager.velocity;
+package com.haozileung.infra.velocity;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
-import com.haozileung.manager.utils.CacheUtil;
+import com.haozileung.infra.utils.CacheUtil;
 
 /**
  * Velocity模板上用于控制缓存的指令

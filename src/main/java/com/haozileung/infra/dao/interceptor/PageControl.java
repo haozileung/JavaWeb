@@ -10,7 +10,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.haozileung.infra.dao.pager.Pageable;
 import com.haozileung.infra.dao.pager.Pager;
 
 /**
@@ -37,25 +36,6 @@ public class PageControl {
 	 * 数据库
 	 */
 	public static String DATABASE;
-
-	/**
-	 * 执行分页
-	 *
-	 * @param pageable
-	 */
-	public static void performPage(Pageable pageable) {
-		performPage(pageable.getCurPage(), pageable.getItemsPerPage(), true);
-	}
-
-	/**
-	 * 执行分页
-	 *
-	 * @param pageable
-	 */
-	public static void performPage(Pageable pageable, boolean isGetCount) {
-		performPage(pageable.getCurPage(), pageable.getItemsPerPage(),
-				isGetCount);
-	}
 
 	/**
 	 * 执行分页
@@ -133,8 +113,8 @@ public class PageControl {
 					countArgs = (Object[]) obj;
 				}
 			}
-			int itemsTotal = target.queryForObject(countSql, countArgs,
-					int.class);
+			Long itemsTotal = target.queryForObject(countSql, countArgs,
+					Long.class);
 			pager.setItemsTotal(itemsTotal);
 		}
 		Object result = pjp.proceed(args);

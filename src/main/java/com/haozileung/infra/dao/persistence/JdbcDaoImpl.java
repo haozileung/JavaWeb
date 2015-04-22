@@ -15,8 +15,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.CollectionUtils;
 
-import com.haozileung.infra.dao.utils.ClassUtils;
-import com.haozileung.infra.dao.utils.NameUtils;
+import com.haozileung.infra.utils.ClassUtils;
+import com.haozileung.infra.utils.NameUtils;
 
 /**
  * jdbc操作dao

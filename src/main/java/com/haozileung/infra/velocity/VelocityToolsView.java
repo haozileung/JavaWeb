@@ -1,4 +1,4 @@
-package com.haozileung.manager.velocity;
+package com.haozileung.infra.velocity;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.haozileung.infra.dao.utils;
+package com.haozileung.infra.utils;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -99,7 +99,7 @@ public class NameUtils {
 			sb.append(c);
 		}
 
-		return sb.toString().toUpperCase();
+		return sb.toString().toLowerCase();
 	}
 
 	/**

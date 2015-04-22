@@ -13,9 +13,7 @@
             http://www.springframework.org/schema/tx/spring-tx.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
-	<context:annotation-config/>
-	<!-- 设置使用注解的类所在的jar包 -->
-	<context:component-scan base-package="com.haozileung.manager.repository"/>
+	<!-- 设置使用注解的类所在的jar包 -->	
 	<bean id="propertyConfigurer"
 		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:jdbc.properties"/>
@@ -47,7 +45,6 @@
 		<property name="patterns">
 			<list>
 				<value>com.haozileung.manager.service.*</value>
-				<value>com.haozileung.manager.repository.*</value>
 			</list>
 		</property>
 	</bean>
@@ -71,6 +68,5 @@
 	<bean id="jdbcDao" class="com.haozileung.infra.dao.persistence.JdbcDaoImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate"/>
 	</bean>
-	<!--需要分页时声明 -->
 	<bean id="pageControl" class="com.haozileung.infra.dao.interceptor.PageControl"/>
 </beans>

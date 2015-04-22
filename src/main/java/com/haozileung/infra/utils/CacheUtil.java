@@ -1,4 +1,4 @@
-package com.haozileung.manager.utils;
+package com.haozileung.infra.utils;
 
 import java.util.List;
 

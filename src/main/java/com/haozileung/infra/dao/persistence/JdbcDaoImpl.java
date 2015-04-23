@@ -1,5 +1,6 @@
 package com.haozileung.infra.dao.persistence;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -62,25 +64,25 @@ public class JdbcDaoImpl implements JdbcDao {
 			if (criteria == null) {
 				criteria = Criteria.create(entityClass);
 			}
-			criteria.setPKValueName(NameUtil.getCamelName(primaryName),
-					pkValue);
+			criteria.setPKValueName(NameUtil.getCamelName(primaryName), pkValue);
 		}
 		final BoundSql boundSql = SqlAssembleUtils.buildInsertSql(entity,
 				criteria, this.getNameHandler());
-
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update(
-				con -> {
-					PreparedStatement ps = con.prepareStatement(
-							boundSql.getSql(),
-							new String[] { boundSql.getPrimaryKey() });
-					int index = 0;
-					for (Object param : boundSql.getParams()) {
-						index++;
-						ps.setObject(index, param);
-					}
-					return ps;
-				}, keyHolder);
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con)
+					throws SQLException {
+				PreparedStatement ps = con.prepareStatement(boundSql.getSql(),
+						new String[] { boundSql.getPrimaryKey() });
+				int index = 0;
+				for (Object param : boundSql.getParams()) {
+					index++;
+					ps.setObject(index, param);
+				}
+				return ps;
+			}
+		}, keyHolder);
 		return keyHolder.getKey().longValue();
 	}
 
@@ -326,5 +328,10 @@ public class JdbcDaoImpl implements JdbcDao {
 
 	public void setDialect(String dialect) {
 		this.dialect = dialect;
+	}
+
+	@Override
+	public JdbcOperations getJdbcTemplate() {
+		return jdbcTemplate;
 	}
 }

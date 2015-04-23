@@ -2,10 +2,19 @@ package com.haozileung.infra.dao.persistence;
 
 import java.util.List;
 
+import org.springframework.jdbc.core.JdbcOperations;
+
 /**
  * jdbc操作dao
  */
 public interface JdbcDao {
+
+	/**
+	 * 取得spring jdbctemplate
+	 * 
+	 * @return
+	 */
+	public JdbcOperations getJdbcTemplate();
 
 	/**
 	 * 插入一条记录 自动处理主键

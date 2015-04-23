@@ -1,16 +1,30 @@
 package com.haozileung.manager.shiro;
 
+import java.util.List;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
+import com.haozileung.infra.dao.persistence.Criteria;
+import com.haozileung.infra.dao.persistence.JdbcDao;
+import com.haozileung.manager.model.security.Role;
+import com.haozileung.manager.model.security.User;
 
 public class UserRealm extends AuthorizingRealm {
+
+	@Autowired
+	private JdbcDao jdbcDao;
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
@@ -19,64 +33,31 @@ public class UserRealm extends AuthorizingRealm {
 			throw new AuthorizationException(
 					"PrincipalCollection method argument cannot be null.");
 		}
-		String username = (String) principals.getPrimaryPrincipal();
-		System.out.println("-------------------" + username);// 输出的其实是用户id
-
+		String email = (String) principals.getPrimaryPrincipal();
+		if (Strings.isNullOrEmpty(email)) {
+			return null;
+		}
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		/* 以下可以从数据库获取用户的角色以及权限信息，获取到的信息添加入info即可 */
-		// // 增加自定义角色
-		// if (null != userInfo.getRoleList()) {
-		// for (RoleInfo roleInfo : userInfo.getRoleList()) {
-		// if (null != roleInfo.getName()
-		// && !"".equals(roleInfo.getName())) {
-		// info.addRole(roleInfo.getName());
-		// }
-		// }
-		// }
-		// if (null != userInfo.getModuleInfo()) {
-		// for (ModuleInfo moduleInfo : userInfo.getModuleInfo()) {
-		// if (null != moduleInfo.getGuid()
-		// && !"".equals(moduleInfo.getGuid())) {
-		// info.addStringPermission(moduleInfo.getGuid());
-		// }
-		// }
-		// }
-
+		List<Role> roleNames = jdbcDao.getJdbcTemplate().queryForList("",
+				Role.class);
 		return info;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
-		// String username = (String) token.getPrincipal();
-		// User user = userService.findByUsername(username);
-		// if(user == null) {
-		// throw new UnknownAccountException();//没找到帐号
-		// }
-		// if(Boolean.TRUE.equals(user.getLocked())) {
-		// throw new LockedAccountException(); //帐号锁定
-		// }
+		String email = (String) token.getPrincipal();
+		User user = jdbcDao.querySingleResult(Criteria.create(User.class)
+				.where("email", new Object[] { email }));
+		if (user == null) {
+			throw new UnknownAccountException();// 没找到帐号
+		}
+		if (user.getStatus() == null || user.getStatus() == 0) {
+			throw new LockedAccountException(); // 帐号锁定
+		}
 		// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-				"", "",
-				// user.getUsername(), //用户名
-				// user.getPassword(), //密码
-				// ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
-				getName() // realm name
-		);
+				user.getEmail(), user.getPassword(), getName());
 		return authenticationInfo;
-	}
-
-	public void clearAllCachedAuthorizationInfo() {
-		getAuthorizationCache().clear();
-	}
-
-	public void clearAllCachedAuthenticationInfo() {
-		getAuthenticationCache().clear();
-	}
-
-	public void clearAllCache() {
-		clearAllCachedAuthenticationInfo();
-		clearAllCachedAuthorizationInfo();
 	}
 }

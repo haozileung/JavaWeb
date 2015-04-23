@@ -5,14 +5,18 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class Role implements Serializable {
+public class UserRole implements Serializable {
+
 	/**
-     *
-     */
-	private static final long serialVersionUID = -7151611901816317374L;
+	 * 
+	 */
+	private static final long serialVersionUID = -1966242053194584836L;
+
 	private Long id;
-	private String name;
-	private Integer status;
+
+	private Long userId;
+
+	private Long roleId;
 
 	public Long getId() {
 		return id;
@@ -22,20 +26,20 @@ public class Role implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public Long getRoleId() {
+		return roleId;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
 	/**

@@ -2,6 +2,9 @@ package com.haozileung.manager.model.security;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class Permission implements Serializable {
 	/**
      *
@@ -42,5 +45,16 @@ public class Permission implements Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	/**
+	 * 重写toString方法
+	 *
+	 * @see Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,
+				ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

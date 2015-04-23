@@ -231,6 +231,10 @@
 					<stopPort>9966</stopPort>
 					<stopKey>foo</stopKey>
 					<reload>manual</reload>
+					<webAppSourceDirectory>src\main\webapp</webAppSourceDirectory>
+					<webApp>
+						<defaultsDescriptor>doc/webdefault.xml</defaultsDescriptor>
+					</webApp>
 				</configuration>
 			</plugin>
 			<plugin>

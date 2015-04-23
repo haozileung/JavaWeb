@@ -5,14 +5,17 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class Permission implements Serializable {
+public class Resource implements Serializable {
 	/**
      *
      */
 	private static final long serialVersionUID = 4454538113916660606L;
 	private Long id;
-	private Integer type;
-	private String value;
+	private String code;
+	private String name;
+	private String url;
+	private String type;
+	private Long groupId;
 	private Integer status;
 
 	public Long getId() {
@@ -23,20 +26,44 @@ public class Permission implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getType() {
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getType() {
 		return type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
-	public String getValue() {
-		return value;
+	public Long getGroupId() {
+		return groupId;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
 	}
 
 	public Integer getStatus() {

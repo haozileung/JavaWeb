@@ -69,7 +69,6 @@ public class UserRealm extends AuthorizingRealm {
 		if (user.getStatus() == null || user.getStatus() == 1) {
 			throw new LockedAccountException(); // 帐号锁定
 		}
-		System.out.println(user.getEmail() + "--" + user.getPassword());
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
 				user.getEmail(), user.getPassword(), getName());
 		return authenticationInfo;

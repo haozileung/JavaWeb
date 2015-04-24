@@ -59,7 +59,6 @@ public class IndexController {
 			model.setViewName("redirect:/login");
 			return model;
 		}
-		logger.debug("用户认证开始:{}, {}", email, password);
 		UsernamePasswordToken token = new UsernamePasswordToken(email, password);
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!Strings.isNullOrEmpty(rememberMe) && rememberMe.equals("yes")) {
@@ -67,15 +66,14 @@ public class IndexController {
 		}
 		try {
 			currentUser.login(token);
-			logger.debug("用户认证完毕:{}", email);
 			model.setViewName("redirect:/index.html");
 			return model;
 		} catch (UnknownAccountException uae) {
-			logger.debug("用户认证失败:username wasn't in the system.");
+			logger.debug("用户认证失败:{} 不存在", email);
 		} catch (IncorrectCredentialsException ice) {
-			logger.debug("用户认证失败:password didn't match.");
+			logger.debug("用户认证失败:密码错误");
 		} catch (LockedAccountException lae) {
-			logger.debug("用户认证失败:account for that username is locked - can't login.");
+			logger.debug("用户认证失败:帐户锁定");
 		} catch (AuthenticationException ae) {
 			logger.debug("用户认证失败:{}", ae.getMessage());
 		}

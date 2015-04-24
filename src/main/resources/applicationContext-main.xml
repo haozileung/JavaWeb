@@ -12,6 +12,8 @@
             http://www.springframework.org/schema/cache 
             http://www.springframework.org/schema/cache/spring-cache.xsd">
 	<context:annotation-config />
+	<!-- 設置上下文 -->
+	<bean id="applicationContext" class="com.haozileung.infra.utils.SpringContextUtil"></bean>
 	<!-- 设置使用注解的类所在的jar包 -->
 	<context:component-scan base-package="com.haozileung.manager.service" />
 	<aop:aspectj-autoproxy />

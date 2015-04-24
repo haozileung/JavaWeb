@@ -13,8 +13,8 @@
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher"
 		class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-		<property name="hashAlgorithmName" value="SHA-512" />
-		<property name="hashIterations" value="2" />
+		<property name="hashAlgorithmName" value="md5" />
+		<property name="hashIterations" value="1" />
 		<property name="storedCredentialsHexEncoded" value="true" />
 	</bean>
 	<!-- Realm实现 -->
@@ -72,9 +72,9 @@
 		<property name="unauthorizedUrl" value="/401.html" />
 		<property name="filterChainDefinitions">
 			<value>
-				/logout = logout
-				/login = anon
-				/assets/** = noSessionCreation,anon
+				/logout=logout
+				/login=anon
+				/assets/**=noSessionCreation,anon
 				/**=user
 			</value>
 		</property>

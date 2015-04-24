@@ -9,27 +9,26 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.haozileung.infra.dao.persistence.Criteria;
 import com.haozileung.infra.dao.persistence.JdbcDao;
+import com.haozileung.infra.utils.SpringContextUtil;
 import com.haozileung.manager.model.security.User;
 
 public class UserRealm extends AuthorizingRealm {
 
-	@Autowired
-	private JdbcDao jdbcDao;
-
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
+		JdbcDao jdbcDao = (JdbcDao) SpringContextUtil.getBean("jdbcDao");
 		if (principals == null) {
 			throw new AuthorizationException(
 					"PrincipalCollection method argument cannot be null.");
@@ -59,7 +58,9 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
-		String email = (String) token.getPrincipal();
+		JdbcDao jdbcDao = (JdbcDao) SpringContextUtil.getBean("jdbcDao");
+		UsernamePasswordToken t = (UsernamePasswordToken) token;
+		String email = t.getUsername();
 		User user = jdbcDao.querySingleResult(Criteria.create(User.class)
 				.where("email", new Object[] { email }));
 		if (user == null) {
@@ -68,7 +69,7 @@ public class UserRealm extends AuthorizingRealm {
 		if (user.getStatus() == null || user.getStatus() == 1) {
 			throw new LockedAccountException(); // 帐号锁定
 		}
-		// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
+		System.out.println(user.getEmail() + "--" + user.getPassword());
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
 				user.getEmail(), user.getPassword(), getName());
 		return authenticationInfo;

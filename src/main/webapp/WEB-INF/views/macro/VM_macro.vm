@@ -1,0 +1,18 @@
+#macro(pagination $pager)
+#set($slider = $pager.getSlider(5))
+#set($slider_last = $slider.size() - 1)
+<nav>
+	<ul class="pagination">
+		<li #if($pager.isDisabledPage($pager.firstPage)) class="disabled" #end><a href="javascript:void(0);" aria-label="first" onclick="toPage($pager.firstPage)"> <span
+				aria-hidden="true">&laquo;</span>
+		</a></li>
+		#if($pager.firstPage != $slider[0])<li class="disabled"><a href="javascript:void(0);" >..</a></li>#end
+		#foreach($no in $pager.getSlider(5))
+		<li #if($pager.isDisabledPage($no)) class="disabled" #end><a href="javascript:void(0);" onclick="toPage($no)">$no </a></li>
+		#end
+		#if($pager.lastPage != $slider[$slider_last])<li class="disabled"><a href="javascript:void(0);" >..</a></li>#end
+		<li #if($pager.isDisabledPage($pager.lastPage)) class="disabled" #end><a href="javascript:void(0);" aria-label="last" onclick="toPage($pager.lastPage)"> <span aria-hidden="true">&raquo;</span>
+		</a></li>
+	</ul>
+</nav>
+#end

@@ -13,6 +13,7 @@ public class Resource implements Serializable {
 	private Long id;
 	private String code;
 	private String name;
+	private String icon;
 	private String url;
 	private String type;
 	private Long groupId;
@@ -83,5 +84,13 @@ public class Resource implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,
 				ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 }

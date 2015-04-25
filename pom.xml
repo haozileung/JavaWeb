@@ -235,6 +235,12 @@
 					<webApp>
 						<defaultsDescriptor>doc/webdefault.xml</defaultsDescriptor>
 					</webApp>
+					<systemProperties>
+						<systemProperty>
+							<name>org.eclipse.jetty.util.URI.charset</name>
+							<value>UTF-8</value>
+						</systemProperty>
+					</systemProperties>
 				</configuration>
 			</plugin>
 			<plugin>

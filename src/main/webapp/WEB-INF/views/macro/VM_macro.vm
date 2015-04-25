@@ -1,5 +1,6 @@
 #macro(pagination $pager)
 #set($slider = $pager.getSlider(5))
+#if($slider.size() > 0)
 #set($slider_last = $slider.size() - 1)
 <nav>
 	<ul class="pagination">
@@ -15,4 +16,5 @@
 		</a></li>
 	</ul>
 </nav>
+#end
 #end

@@ -35,7 +35,7 @@ public class IndexController {
 	 *
 	 * @return
 	 */
-	@RequestMapping({ "/index", "/", "" })
+	@RequestMapping({ "/", "" })
 	public ModelAndView index(ModelAndView model) {
 		model.setViewName("/index");
 		return model;
@@ -50,7 +50,6 @@ public class IndexController {
 	public ModelAndView doLogin(ModelAndView model, UserLoginForm form) {
 		String email = form.getEmail();
 		String password = form.getPassword();
-		String rememberMe = form.getRememberMe();
 		try {
 			Preconditions.checkArgument(!Strings.isNullOrEmpty(email)
 					&& !Strings.isNullOrEmpty(password));
@@ -61,12 +60,12 @@ public class IndexController {
 		}
 		UsernamePasswordToken token = new UsernamePasswordToken(email, password);
 		Subject currentUser = SecurityUtils.getSubject();
-		if (!Strings.isNullOrEmpty(rememberMe) && rememberMe.equals("yes")) {
+		if (form.getRememberMe()) {
 			token.setRememberMe(true);
 		}
 		try {
 			currentUser.login(token);
-			model.setViewName("redirect:/index.html");
+			model.setViewName("redirect:/");
 			return model;
 		} catch (UnknownAccountException uae) {
 			logger.debug("用户认证失败:{} 不存在", email);

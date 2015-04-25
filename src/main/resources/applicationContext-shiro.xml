@@ -13,7 +13,7 @@
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher"
 		class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-		<property name="hashAlgorithmName" value="md5" />
+		<property name="hashAlgorithmName" value="sha-512" />
 		<property name="hashIterations" value="1" />
 		<property name="storedCredentialsHexEncoded" value="true" />
 	</bean>
@@ -67,9 +67,9 @@
 	<!-- 過濾器 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="successUrl" value="/index.html" />
+		<property name="successUrl" value="/" />
 		<property name="loginUrl" value="/login" />
-		<property name="unauthorizedUrl" value="/401.html" />
+		<property name="unauthorizedUrl" value="/errors/403" />
 		<property name="filterChainDefinitions">
 			<value>
 				/logout=logout

@@ -1,53 +1,60 @@
-#set($page_title="角色管理")
+#set($page_title="资源管理")
 <div class="row">
-	<div class="col-lg-12">
-		<h3 class="page-header">$page_title</h3>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<form class="form-inline" id="searchForm" method="get"
-					action="$link.getContextPath()/resource/page">
-					<input type="hidden" name="pageNo" id="pageNo" value="">
-					<div class="form-group">
-						<label for="code">资源编码：</label> <input type="text" maxlength="20"
-							class="form-control" id="code" name="code" placeholder="请输入资源编码">
-					</div>
-					<div class="form-group">
-						<label for="name">资源名：</label> <input type="text" maxlength="20"
-							class="form-control" id="name" name="name" placeholder="请输入资源名">
-					</div>
-					<div class="form-group">
-						<label for="groupId">资源组：</label> <select class="form-control"
-							name="groupId">
-							<option value="0">全部分组</option> #foreach($group in $groups)
-							<option value="$group.id">$group.name</option> #end
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="type">类型：</label> <select class="form-control"
-							name="type">
-							<option value="">全部</option>
-							<option value="0">菜单</option>
-							<option value="1">控件</option>
-							<option value="2">函数</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="status">状态：</label> <select class="form-control"
-							name="status"><option value="0">启用</option>
-							<option value="1">禁用</option></select>
-					</div>
-					<button type="button" class="btn btn-default" id="searchBtn">查询</button>
-					<button type="reset" class="btn btn-default">重置</button>
-					<button type="button" class="btn btn-default" id="newBtn">新增</button>
-				</form>
-			</div>
-		</div>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="table-responsive" id="result"></div>
-			</div>
-		</div>
-	</div>
+    <div class="col-lg-12">
+        <h3 class="page-header">$page_title</h3>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-inline" id="searchForm" method="get"
+                      action="$link.getContextPath()/resource/page">
+                    <input type="hidden" name="pageNo" id="pageNo" value="">
+
+                    <div class="form-group">
+                        <label for="code">资源编码：</label>
+                        <input type="text" maxlength="20" class="form-control" id="code" name="code"
+                               placeholder="请输入资源编码">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">资源名：</label>
+                        <input type="text" maxlength="20" class="form-control" id="name" name="name"
+                               placeholder="请输入资源名">
+                    </div>
+                    <div class="form-group">
+                        <label for="groupId">资源组：</label> <select class="form-control" id="groupId" name="groupId">
+                        <option value="0">全部分组</option>
+                        #foreach($group in $dic.getResourceGroup())
+                        <option value="$group.id">$group.name</option>
+                        #end
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">类型：</label> <select class="form-control" id="type" name="type">
+                        <option value="">全部</option>
+                        #foreach($data in $dic.getResourceType().entrySet())
+                        <option value="$data.key">$data.value</option>
+                        #end
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">状态：</label>
+                        <select class="form-control" id="status" name="status">
+                            #foreach($data in $dic.getStatus().entrySet())
+                            <option value="$data.key">$data.value</option>
+                            #end
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-default" id="searchBtn">查询</button>
+                    <button type="reset" class="btn btn-default">重置</button>
+                    <button type="button" class="btn btn-default" id="newBtn">新增</button>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="table-responsive" id="result"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -63,11 +70,11 @@
 	}
 	function show(id) {
 		$("#myModal").modal('toggle');
-		$("#myModalLabel").html("修改角色");
+		$("#myModalLabel").html("修改资源");
 		$("#myModalBody").html("正在打开...");
 		$.get("$link.getContextPath()/resource/show?id=" + id, function(data) {
 			$("#myModalBody").html(data);
-			$("#roleForm").attr("action",
+			$("#resourceForm").attr("action",
 					"$link.getContextPath()/resource/update");
 		});
 	}
@@ -96,7 +103,7 @@
 								.click(
 										function() {
 											$("#myModal").modal('toggle');
-											$("#myModalLabel").html("添加角色");
+											$("#myModalLabel").html("添加资源");
 											$("#myModalBody").html("正在打开...");
 											$
 													.get(
@@ -106,7 +113,7 @@
 																		"#myModalBody")
 																		.html(
 																				data);
-																$("#roleForm")
+																$("#resourceForm")
 																		.attr(
 																				"action",
 																				"$link.getContextPath()/resource/add");
@@ -116,7 +123,7 @@
 							toPage(1);
 						});
 						$("#myModalBtn").click(function() {
-							$("#roleForm").ajaxSubmit({
+							$("#resourceForm").ajaxSubmit({
 								success : function(data) {
 									if (data.status == 0) {
 										$("#myModal").modal('toggle');

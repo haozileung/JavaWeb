@@ -7,6 +7,7 @@
 			<th>ResourceID</th>
 			<th>资源编码</th>
 			<th>资源名</th>
+			<th>URL</th>
 			<th>资源组</th>
 			<th>资源类型</th>
 			<th>状态</th>
@@ -16,12 +17,25 @@
 	<tbody>
 		#foreach( $resource in $pager.list )
 		<tr>
-			<td>$resource.id</td>
-			<td>$resource.code</td>
-			<td>$resource.name</td>
-			<td>$resource.groupId</td>
-			<td>$resource.type</td>
-			<td>#if($resource.status == 1) 禁用 #else 启用 #end</td>
+			<td>$!resource.id</td>
+			<td>$!resource.code</td>
+			<td>$!resource.name</td>
+			<td>$!resource.url</td>
+			<td>
+				#foreach($group in $dic.getResourceGroup())
+				#if($resource.groupId == $group.id)${group.name}#end
+				#end
+			</td>
+			<td>
+				#foreach($data in $dic.getResourceType().entrySet())
+				#if($resource.type == $data.key)${data.value}#end
+				#end
+			</td>
+			<td>
+				#foreach($data in $dic.getStatus().entrySet())
+				#if($resource.status == $data.key)${data.value}#end
+				#end
+			</td>
 			<td><a href="javascript:void(0);" onclick="show($resource.id)">修改</a>
 				<a href="javascript:void(0);" onclick="ban($resource.id)">#if($resource.status
 					== 1) 启用 #else 禁用 #end</a><a href="javascript:void(0);"

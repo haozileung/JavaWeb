@@ -57,8 +57,10 @@ public class ResourceServiceImpl implements IResourceService {
 		Resource r = dao.querySingleResult(Criteria.create(Resource.class)
 				.where("code", new Object[] { resource.getCode() })
 				.and("name", new Object[] { resource.getName() }));
+		System.out.println(r);
+		System.out.println(resource);
 		if (r != null && !r.getId().equals(resource.getId())) {
-			throw new Exception("角色已存在");
+			throw new Exception("资源已存在");
 		}
 		dao.update(resource);
 	}

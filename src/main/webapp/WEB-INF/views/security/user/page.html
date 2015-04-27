@@ -17,7 +17,10 @@
 			<td>$user.id</td>
 			<td>$user.name</td>
 			<td>$user.email</td>
-			<td>#if($user.status == 1) 禁用 #else 启用 #end</td>
+			<td>#foreach($data in $dic.getStatus().entrySet())
+				#if($user.status == $data.key)${data.value}#end
+				#end
+			</td>
 			<td><a href="javascript:void(0);" onclick="show($user.id)">修改</a>
 				<a href="javascript:void(0);" onclick="ban($user.id)">#if($user.status
 					== 1) 启用 #else 禁用 #end</a><a href="javascript:void(0);"

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tools>
 <tools>
-    <toolbox scope="application">
-        <tool class="com.haozileung.manager.tools.MyTools"/>
-    </toolbox>
+	<toolbox scope="application">
+		<tool class="com.haozileung.manager.velocity.DictionaryTool" />
+		<tool class="com.haozileung.infra.velocity.PermissionTool" />
+	</toolbox>
 </tools>

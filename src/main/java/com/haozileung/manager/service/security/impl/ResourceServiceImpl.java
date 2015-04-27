@@ -1,5 +1,7 @@
 package com.haozileung.manager.service.security.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,6 +86,12 @@ public class ResourceServiceImpl implements IResourceService {
 			}
 			dao.update(resource);
 		}
+	}
+
+	@Override
+	public List<Resource> getResourceGroups() {
+		return dao.queryList(Criteria.create(Resource.class).where("groupId",
+				new Object[] { 0 }));
 	}
 
 }

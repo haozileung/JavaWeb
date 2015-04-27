@@ -1,5 +1,7 @@
 package com.haozileung.manager.service.security;
 
+import java.util.List;
+
 import com.haozileung.infra.dao.pager.Pager;
 import com.haozileung.manager.model.security.Resource;
 
@@ -15,6 +17,12 @@ public interface IResourceService {
 	 * @return
 	 */
 	Pager pageSearch(Resource resource, Integer pageNo);
+
+	/**
+	 * 
+	 * @return
+	 */
+	List<Resource> getResourceGroups();
 
 	/**
 	 * 

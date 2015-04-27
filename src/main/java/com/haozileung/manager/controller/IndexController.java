@@ -60,7 +60,7 @@ public class IndexController {
 		}
 		UsernamePasswordToken token = new UsernamePasswordToken(email, password);
 		Subject currentUser = SecurityUtils.getSubject();
-		if (form.getRememberMe()) {
+		if (Boolean.TRUE.equals(form.getRememberMe())) {
 			token.setRememberMe(true);
 		}
 		try {

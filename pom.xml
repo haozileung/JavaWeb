@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
+			<version>2.2.1-b03</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.0.13</version>
+			<version>1.0.14</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -183,7 +183,7 @@
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
-			<version>2.6.10</version>
+			<version>2.6.11</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>

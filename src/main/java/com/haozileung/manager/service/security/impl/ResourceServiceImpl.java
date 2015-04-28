@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.haozileung.infra.dao.interceptor.PageControl;
 import com.haozileung.infra.dao.pager.Pager;
 import com.haozileung.infra.dao.persistence.Criteria;
@@ -57,8 +58,6 @@ public class ResourceServiceImpl implements IResourceService {
 		Resource r = dao.querySingleResult(Criteria.create(Resource.class)
 				.where("code", new Object[] { resource.getCode() })
 				.and("name", new Object[] { resource.getName() }));
-		System.out.println(r);
-		System.out.println(resource);
 		if (r != null && !r.getId().equals(resource.getId())) {
 			throw new Exception("资源已存在");
 		}
@@ -94,6 +93,26 @@ public class ResourceServiceImpl implements IResourceService {
 	public List<Resource> getResourceGroups() {
 		return dao.queryList(Criteria.create(Resource.class).where("groupId",
 				new Object[] { 0 }));
+	}
+
+	@Override
+	public List<Resource> findResourceByRoleIds(List<Long> roleIds) {
+		List<RoleResource> rrs = dao.queryList(Criteria.create(
+				RoleResource.class).where("role_id", "in",
+				roleIds.toArray(new Long[roleIds.size()])));
+		if (rrs != null && rrs.size() > 0) {
+			List<Long> resourceIds = Lists.newArrayList();
+			for (RoleResource rr : rrs) {
+				resourceIds.add(rr.getResourceId());
+			}
+			return dao.queryList(Criteria
+					.create(Resource.class)
+					.where("id", "in",
+							resourceIds.toArray(new Long[resourceIds.size()]))
+					.and("status", new Object[] { 0 }));
+		} else {
+			return null;
+		}
 	}
 
 }

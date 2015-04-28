@@ -38,6 +38,7 @@ public class IndexController {
 	@RequestMapping({ "/", "" })
 	public ModelAndView index(ModelAndView model) {
 		model.setViewName("/index");
+		System.out.println(System.getProperty("java.io.tmpdir"));
 		return model;
 	}
 

@@ -17,18 +17,23 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.haozileung.infra.dao.persistence.Criteria;
-import com.haozileung.infra.dao.persistence.JdbcDao;
 import com.haozileung.infra.utils.SpringContextUtil;
+import com.haozileung.manager.model.security.Resource;
+import com.haozileung.manager.model.security.Role;
 import com.haozileung.manager.model.security.User;
+import com.haozileung.manager.service.security.IResourceService;
+import com.haozileung.manager.service.security.IRoleService;
+import com.haozileung.manager.service.security.IUserService;
 
 public class UserRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
-		JdbcDao jdbcDao = (JdbcDao) SpringContextUtil.getBean("jdbcDao");
+		IRoleService roleService = (IRoleService) SpringContextUtil
+				.getBean("roleServiceImpl");
 		if (principals == null) {
 			throw new AuthorizationException(
 					"PrincipalCollection method argument cannot be null.");
@@ -38,31 +43,39 @@ public class UserRealm extends AuthorizingRealm {
 			return null;
 		}
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		List<String> roleNames = jdbcDao
-				.getJdbcTemplate()
-				.queryForList(
-						"SELECT	r.`name` FROM role r LEFT JOIN user_role ur ON r.id = ur.role_id LEFT JOIN USER u ON ur.user_id = u.id WHERE	r. STATUS = 0 AND u.email = ?",
-						new Object[] { email }, String.class);
-		Set<String> roles = Sets.newConcurrentHashSet(roleNames);
-		List<String> resourceCode = jdbcDao
-				.getJdbcTemplate()
-				.queryForList(
-						"SELECT r.`code` FROM resource r LEFT JOIN role_resource rr ON r.id = rr.resource_id LEFT JOIN user_role ur ON ur.role_id = rr.role_id LEFT JOIN `user` u ON u.id = ur.user_id WHERE r.`status` = 0 AND u.email = ?",
-						new Object[] { email }, String.class);
-		info.setRoles(roles);
-		Set<String> permissions = Sets.newConcurrentHashSet(resourceCode);
-		info.setStringPermissions(permissions);
+		List<Role> rs = roleService.findRoleByUserEmail(email);
+		if (rs != null && rs.size() > 0) {
+			Set<String> roleCodes = Sets.newHashSet();
+			List<Long> roleIds = Lists.newArrayList();
+			for (Role r : rs) {
+				roleCodes.add(r.getCode());
+				roleIds.add(r.getId());
+			}
+			IResourceService resourceService = (IResourceService) SpringContextUtil
+					.getBean("resourceServiceImpl");
+			List<Resource> resources = resourceService
+					.findResourceByRoleIds(roleIds);
+			if (resources != null && resources.size() > 0) {
+				Set<String> resourceCodes = Sets.newHashSet();
+				for (Resource r : resources) {
+					resourceCodes.add(r.getCode());
+				}
+				info.setStringPermissions(resourceCodes);
+			}
+			info.setRoles(roleCodes);
+
+		}
 		return info;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
-		JdbcDao jdbcDao = (JdbcDao) SpringContextUtil.getBean("jdbcDao");
+		IUserService userService = (IUserService) SpringContextUtil
+				.getBean("userServiceImpl");
 		UsernamePasswordToken t = (UsernamePasswordToken) token;
 		String email = t.getUsername();
-		User user = jdbcDao.querySingleResult(Criteria.create(User.class)
-				.where("email", new Object[] { email }));
+		User user = userService.findUserByEmail(email);
 		if (user == null) {
 			throw new UnknownAccountException();// 没找到帐号
 		}

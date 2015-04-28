@@ -21,7 +21,7 @@ public class RoleController {
 	@Autowired
 	private IRoleService service;
 
-	@RequestMapping("/list")
+	@RequestMapping({ "", "/" })
 	public ModelAndView list(ModelAndView mv) {
 		mv.setViewName("/security/role/roles");
 		return mv;

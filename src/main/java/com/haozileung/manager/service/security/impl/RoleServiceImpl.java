@@ -1,15 +1,19 @@
 package com.haozileung.manager.service.security.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.haozileung.infra.dao.interceptor.PageControl;
 import com.haozileung.infra.dao.pager.Pager;
 import com.haozileung.infra.dao.persistence.Criteria;
 import com.haozileung.infra.dao.persistence.JdbcDao;
 import com.haozileung.manager.model.security.Role;
 import com.haozileung.manager.model.security.RoleResource;
+import com.haozileung.manager.model.security.User;
 import com.haozileung.manager.model.security.UserRole;
 import com.haozileung.manager.service.security.IRoleService;
 
@@ -84,6 +88,27 @@ public class RoleServiceImpl implements IRoleService {
 				role.setStatus(0);
 			}
 			dao.update(role);
+		}
+	}
+
+	@Override
+	public List<Role> findRoleByUserEmail(String email) {
+		User user = dao.querySingleResult(Criteria.create(User.class).where(
+				"email", new Object[] { email }));
+		List<UserRole> urs = dao.queryList(Criteria.create(UserRole.class)
+				.where("user_id", new Object[] { user.getId() }));
+		if (urs != null && urs.size() > 0) {
+			List<Long> roleIds = Lists.newArrayList();
+			for (UserRole ur : urs) {
+				roleIds.add(ur.getRoleId());
+			}
+			return dao.queryList(Criteria
+					.create(Role.class)
+					.where("id", "in",
+							roleIds.toArray(new Long[roleIds.size()]))
+					.and("status", new Object[] { 0 }));
+		} else {
+			return null;
 		}
 	}
 

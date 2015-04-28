@@ -19,6 +19,7 @@
 					<div class="form-group">
 						<label for="groupId">资源组：</label>
 						<select class="form-control" id="groupId" name="groupId">
+							<option value="">全部</option>
 							<option value="0">全部分组</option>
 							#foreach($group in $dic.getResourceGroup())
 							<option value="$group.id">$group.name</option>

@@ -12,6 +12,13 @@ import com.haozileung.manager.model.security.Resource;
 public interface IResourceService {
 	/**
 	 * 
+	 * @param roleIds
+	 * @return
+	 */
+	List<Resource> findResourceByRoleIds(List<Long> roleIds);
+
+	/**
+	 * 
 	 * @param resource
 	 * @param pageNo
 	 * @return

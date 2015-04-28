@@ -41,7 +41,6 @@ public class DictionaryTool {
 	public List<Resource> getResourceGroup(){
 		IResourceService service = (IResourceService) SpringContextUtil.getBean("resourceServiceImpl");
 		List<Resource> list = service.getResourceGroups();
-		System.out.println(list);
 		return list;
 	}
 }

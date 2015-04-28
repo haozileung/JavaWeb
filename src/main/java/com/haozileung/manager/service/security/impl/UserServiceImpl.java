@@ -96,4 +96,10 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
+	@Override
+	public User findUserByEmail(String email) {
+		return dao.querySingleResult(Criteria.create(User.class).where("email",
+				new Object[] { email }));
+	}
+
 }

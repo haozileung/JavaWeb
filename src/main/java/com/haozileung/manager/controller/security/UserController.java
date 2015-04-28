@@ -21,7 +21,7 @@ public class UserController {
 	@Autowired
 	private IUserService service;
 
-	@RequestMapping("/list")
+	@RequestMapping({ "", "/" })
 	public ModelAndView list(ModelAndView mv) {
 		mv.setViewName("/security/user/users");
 		return mv;

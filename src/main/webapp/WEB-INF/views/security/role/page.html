@@ -3,6 +3,7 @@
 	<thead>
 		<tr>
 			<th>RoleID</th>
+			<th>角色编码</th>
 			<th>角色名</th>
 			<th>状态</th>
 			<th>操作</th>
@@ -12,6 +13,7 @@
 		#foreach( $role in $pager.list )
 		<tr>
 			<td>$role.id</td>
+			<td>$role.code</td>
 			<td>$role.name</td>
 			<td>
 				#foreach($data in $dic.getStatus().entrySet()) #if($role.status == $data.key)${data.value}#end #end

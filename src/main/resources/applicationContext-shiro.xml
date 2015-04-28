@@ -72,9 +72,10 @@
 		<property name="unauthorizedUrl" value="/errors/403" />
 		<property name="filterChainDefinitions">
 			<value>
-				/logout=logout
-				/login=anon
-				/assets/**=noSessionCreation,anon
+				/logout = logout
+				/login = anon
+				/assets/** = noSessionCreation,anon
+				/druid/** = authc,roles[sa]
 				/**=user
 			</value>
 		</property>

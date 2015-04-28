@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.haozileung.infra.dao.interceptor.PageControl;
-import com.haozileung.infra.dao.pager.Pager;
 import com.haozileung.infra.dao.persistence.Criteria;
 import com.haozileung.infra.dao.persistence.JdbcDao;
 import com.haozileung.manager.model.security.User;
@@ -35,18 +33,12 @@ public class SpringTest {
 
 	@Test
 	public void test2() {
-		// 直接传入页码和每页条数
-		PageControl.performPage(1, 1);
-		// 使用Criteria方式，并指定排序字段方式为asc
-		Criteria criteria = Criteria.create(User.class);
-		jdbcDao.queryList(criteria);
-		Pager pager = PageControl.getPager();
+
 		// 列表
-		List<User> users = pager.getList(User.class);
+		List<User> users = jdbcDao.queryList(Criteria.create(User.class).where(
+				"id", "in", new Object[] { 1 }));
 		// 总记录数
-		Long itemsTotal = pager.getItemsTotal();
 		System.out.println(users);
-		System.out.println(itemsTotal);
 	}
 
 }

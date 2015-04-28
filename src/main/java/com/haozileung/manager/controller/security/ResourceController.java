@@ -21,7 +21,7 @@ public class ResourceController {
 	@Autowired
 	private IResourceService service;
 
-	@RequestMapping("/list")
+	@RequestMapping({ "", "/" })
 	public ModelAndView list(ModelAndView mv) {
 		mv.setViewName("/security/resource/resources");
 		return mv;

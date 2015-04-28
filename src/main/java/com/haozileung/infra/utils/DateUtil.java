@@ -648,29 +648,6 @@ public class DateUtil {
 		return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
 	}
 
-	public static void main(String arg[]) throws ParseException {
-		// String date = "2010/10/20";
-		// Date date1= DateUtil.parse(date,"yyyy/MM/dd" );
-		// System.out.println(DateUtil.getStringOfDate(date1,DateUtil.defaultDateTimePatternStr,null));
-		int a = 10;
-		if (a > 1) {
-			System.out.println("a1" + a);
-
-		} else if (a > 2) {
-			System.out.println("a2" + a);
-		} else
-			System.out.println("a3" + a);
-
-		Date date = DateUtil.parse("2011-01-19 00:00:00:000",
-				DateUtil.defaultLongDateTimePatternStr);
-		System.out.println(date.getTime());
-
-		date = DateUtil.parse("2011-01-23 23:59:59:999",
-				DateUtil.defaultLongDateTimePatternStr);
-		System.out.println(date.getTime());
-
-	}
-
 	/**
 	 * 把字符串格式化成日期类型
 	 *

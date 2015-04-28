@@ -43,7 +43,7 @@
 			<select class="form-control" id="groupId" name="groupId">
 				<option value="0"></option>
 				#foreach($group in $dic.getResourceGroup())
-				<option #if($resource.groupId==$ group.id) selected="selected" #end value="$group.id">
+				<option #if($resource.groupId==$group.id) selected="selected" #end value="$group.id">
 					$group.name
 				</option>
 				#end
@@ -56,7 +56,7 @@
 		<div class="col-sm-10">
 			<select class="form-control" id="type" name="type">
 				#foreach($data in $dic.getResourceType().entrySet())
-				<option #if($resource.type==$ data.key) selected="selected" #end value="$data.key">
+				<option #if($resource.type==$data.key) selected="selected" #end value="$data.key">
 					$data.value
 				</option>
 				#end
@@ -69,7 +69,7 @@
 		<div class="col-sm-10">
 			<select class="form-control" id="status" name="status" #if($resource) readonly #end>
 				#foreach($data in $dic.getStatus().entrySet())
-				<option #if($resource.status==$ data.key) selected="selected" #end value="$data.key">$data.value
+				<option #if($resource.status==$data.key) selected="selected" #end value="$data.key">$data.value
 				</option>
 				#end
 			</select>

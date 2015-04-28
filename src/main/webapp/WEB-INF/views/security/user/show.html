@@ -36,7 +36,7 @@
 		<div class="col-sm-10">
 			<select class="form-control" id="status" name="status" #if($user) disabled #end>
 				#foreach($data in $dic.getStatus().entrySet())
-				<option #if($user.status==$ data.key) selected="selected" #end value="$data.key">$data.value</option>
+				<option #if($user.status==$data.key) selected="selected" #end value="$data.key">$data.value</option>
 				#end
 			</select>
 		</div>

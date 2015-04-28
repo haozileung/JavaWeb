@@ -10,6 +10,13 @@ import com.haozileung.manager.model.security.User;
 public interface IUserService {
 	/**
 	 * 
+	 * @param email
+	 * @return
+	 */
+	User findUserByEmail(String email);
+	
+	/**
+	 * 
 	 * @param username
 	 * @param email
 	 * @param pageNo
@@ -33,7 +40,7 @@ public interface IUserService {
 	/**
 	 * @param user
 	 */
-	void update(User user) throws Exception ;
+	void update(User user) throws Exception;
 
 	/**
 	 * @param uid

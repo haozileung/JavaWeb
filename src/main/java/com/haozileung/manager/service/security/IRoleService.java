@@ -1,5 +1,7 @@
 package com.haozileung.manager.service.security;
 
+import java.util.List;
+
 import com.haozileung.infra.dao.pager.Pager;
 import com.haozileung.manager.model.security.Role;
 
@@ -8,6 +10,14 @@ import com.haozileung.manager.model.security.Role;
  *
  */
 public interface IRoleService {
+
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
+	List<Role> findRoleByUserEmail(String email);
+
 	/**
 	 * 
 	 * @param rolename
@@ -33,7 +43,7 @@ public interface IRoleService {
 	/**
 	 * @param role
 	 */
-	void update(Role role) throws Exception ;
+	void update(Role role) throws Exception;
 
 	/**
 	 * @param id

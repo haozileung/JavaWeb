@@ -12,6 +12,12 @@ import com.haozileung.manager.model.security.Resource;
 public interface IResourceService {
 	/**
 	 * 
+	 * @return
+	 */
+	List<Resource> findMenu();
+
+	/**
+	 * 
 	 * @param roleIds
 	 * @return
 	 */

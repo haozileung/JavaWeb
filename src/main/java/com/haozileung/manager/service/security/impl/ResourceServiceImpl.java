@@ -2,6 +2,7 @@ package com.haozileung.manager.service.security.impl;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -113,6 +114,19 @@ public class ResourceServiceImpl implements IResourceService {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public List<Resource> findMenu() {
+		List<Resource> menus = dao.queryList(Criteria.create(Resource.class)
+				.where("type", "in", new Object[] { 0, 1 }));
+		List<Resource> result = Lists.newArrayList();
+		for (Resource r : menus) {
+			if (SecurityUtils.getSubject().isPermitted(r.getCode())) {
+				result.add(r);
+			}
+		}
+		return result;
 	}
 
 }

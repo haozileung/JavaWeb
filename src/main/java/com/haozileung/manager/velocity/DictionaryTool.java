@@ -38,9 +38,18 @@ public class DictionaryTool {
 		return resourceType;
 	}
 
-	public List<Resource> getResourceGroup(){
-		IResourceService service = (IResourceService) SpringContextUtil.getBean("resourceServiceImpl");
+	public List<Resource> getResourceGroup() {
+		IResourceService service = (IResourceService) SpringContextUtil
+				.getBean("resourceServiceImpl");
 		List<Resource> list = service.getResourceGroups();
 		return list;
 	}
+
+	public List<Resource> getMenu() {
+		IResourceService service = (IResourceService) SpringContextUtil
+				.getBean("resourceServiceImpl");
+		List<Resource> list = service.findMenu();
+		return list;
+	}
+
 }

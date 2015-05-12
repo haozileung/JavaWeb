@@ -95,6 +95,9 @@ public class RoleServiceImpl implements IRoleService {
 	public List<Role> findRoleByUserEmail(String email) {
 		User user = dao.querySingleResult(Criteria.create(User.class).where(
 				"email", new Object[] { email }));
+		if (user == null) {
+			return null;
+		}
 		List<UserRole> urs = dao.queryList(Criteria.create(UserRole.class)
 				.where("user_id", new Object[] { user.getId() }));
 		if (urs != null && urs.size() > 0) {

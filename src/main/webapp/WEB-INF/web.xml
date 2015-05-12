@@ -54,7 +54,7 @@
 		</init-param>
 		<init-param>
 			<param-name>principalCookieName</param-name>
-			<param-value>r</param-value>
+			<param-value>s</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

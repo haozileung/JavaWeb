@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
+	@CacheEvict(value = "menu")
 	public Long save(Resource resource) throws Exception {
 		Resource r = dao.querySingleResult(Criteria.create(Resource.class)
 				.where("code", new Object[] { resource.getCode() })
@@ -52,6 +55,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
+	@CacheEvict(value = "menu")
 	public void update(Resource resource) throws Exception {
 		if (resource.getId() == null) {
 			new Exception("ID不能为空");
@@ -66,6 +70,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
+	@CacheEvict(value = "menu")
 	public void delete(Long id) {
 		if (id != null) {
 			Resource r = new Resource();
@@ -78,6 +83,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
+	@CacheEvict(value = "menu")
 	public void ban(Long id) {
 		if (id != null) {
 			Resource resource = dao.get(Resource.class, id);
@@ -117,6 +123,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
+	@Cacheable(value = "menu")
 	public List<Resource> findMenu() {
 		List<Resource> menus = dao.queryList(Criteria.create(Resource.class)
 				.where("type", "in", new Object[] { 0, 1 }));

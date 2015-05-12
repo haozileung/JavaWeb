@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.haozileung.infra.dao.exceptions.AssistantException;
+import com.haozileung.infra.dao.exceptions.DaoException;
 import com.haozileung.infra.utils.ClassUtil;
 
 /**
@@ -167,7 +167,7 @@ public class SqlAssembleUtils {
 
 				if (ArrayUtils.isEmpty(values)
 						|| StringUtils.isBlank(values[0].toString())) {
-					throw new AssistantException("主键值不能设为空");
+					throw new DaoException("主键值不能设为空");
 				}
 				primaryValue = values[0];
 			}
@@ -654,7 +654,7 @@ public class SqlAssembleUtils {
 			return readMethod.invoke(entity);
 		} catch (Exception e) {
 			LOG.error("获取属性值失败", e);
-			throw new AssistantException(e);
+			throw new DaoException(e);
 		}
 	}
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.haozileung.infra.dao.exceptions.AssistantException;
+import com.haozileung.infra.dao.exceptions.DaoException;
 
 /**
  * sql操作Criteria
@@ -232,7 +232,7 @@ public class Criteria {
 	public Criteria where(String fieldName, String fieldOperator,
 			Object[] values) {
 		if (this.isWhere) {
-			throw new AssistantException("There can be only one 'where'!");
+			throw new DaoException("[where]只能出现一次！");
 		}
 		AutoField autoField = this.buildAutoFields(fieldName, "and",
 				fieldOperator, AutoField.WHERE_FIELD, values);

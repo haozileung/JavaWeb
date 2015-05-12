@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.haozileung.infra.dao.enums.IEnum;
-import com.haozileung.infra.dao.exceptions.AssistantException;
+import com.haozileung.infra.dao.exceptions.DaoException;
 
 /**
  * Java Bean 对象转换器
@@ -79,7 +79,7 @@ public class BeanConverter {
 
 			} catch (Exception e) {
 				LOG.warn("列表转换失败", e);
-				throw new AssistantException(e);
+				throw new DaoException(e);
 			}
 		}
 
@@ -177,7 +177,7 @@ public class BeanConverter {
 				}
 			} catch (Exception e) {
 				LOG.warn("Bean转换时拷贝同名的属性失败[field={}]", targetPd.getName());
-				throw new AssistantException(e);
+				throw new DaoException(e);
 			}
 
 		}

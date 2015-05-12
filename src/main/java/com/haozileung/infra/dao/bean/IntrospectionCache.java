@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.haozileung.infra.dao.exceptions.AssistantException;
+import com.haozileung.infra.dao.exceptions.DaoException;
 
 /**
  * JavaBean信息缓存
@@ -85,7 +85,7 @@ public class IntrospectionCache {
 
 		} catch (IntrospectionException ex) {
 			LOG.warn("初始化缓存bean信息时出现异常", ex);
-			throw new AssistantException(ex);
+			throw new DaoException(ex);
 		}
 	}
 

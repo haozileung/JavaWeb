@@ -10,7 +10,7 @@ import java.util.WeakHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.haozileung.infra.dao.exceptions.AssistantException;
+import com.haozileung.infra.dao.exceptions.DaoException;
 
 /**
  * 类辅助
@@ -61,7 +61,7 @@ public class ClassUtil {
 			return beanInfo;
 		} catch (IntrospectionException e) {
 			LOG.error("获取BeanInfo失败", e);
-			throw new AssistantException(e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class ClassUtil {
 			return clazz.newInstance();
 		} catch (Exception e) {
 			LOG.error("根据class创建实例失败", e);
-			throw new AssistantException(e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class ClassUtil {
 			return loadClass.newInstance();
 		} catch (Exception e) {
 			LOG.error("根据class名称创建实例失败", e);
-			throw new AssistantException(e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -131,7 +131,7 @@ public class ClassUtil {
 			return loadClass;
 		} catch (Exception e) {
 			LOG.error("根据class名称加载class失败", e);
-			throw new AssistantException(e);
+			throw new DaoException(e);
 		}
 	}
 

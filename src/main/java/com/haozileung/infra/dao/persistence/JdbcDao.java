@@ -2,19 +2,10 @@ package com.haozileung.infra.dao.persistence;
 
 import java.util.List;
 
-import org.springframework.jdbc.core.JdbcOperations;
-
 /**
  * jdbc操作dao
  */
 public interface JdbcDao {
-
-	/**
-	 * 取得spring jdbctemplate
-	 * 
-	 * @return
-	 */
-	public JdbcOperations getJdbcTemplate();
 
 	/**
 	 * 插入一条记录 自动处理主键
@@ -215,4 +206,40 @@ public interface JdbcDao {
 	 * @return
 	 */
 	byte[] getBlobValue(Class<?> clazz, String fieldName, Long id);
+
+	/**
+	 * 
+	 * @param sql
+	 * @param args
+	 * @return
+	 */
+	int updateForObject(final String sql, final Object[] args);
+
+	/**
+	 * 
+	 * @param sql
+	 * @param args
+	 * @param mappedClass
+	 * @return
+	 */
+	<T> T queryForObject(final String sql, final Object[] args,
+			final Class<T> mappedClass);
+
+	/**
+	 * 
+	 * @param sql
+	 * @param args
+	 * @return
+	 */
+	Long addForObject(final String sql, final Object[] args);
+
+	/**
+	 * 
+	 * @param sql
+	 * @param args
+	 * @param clazz
+	 * @return
+	 */
+	<T> List<T> queryForObjectList(final String sql, final Object[] args,
+			final Class<T> clazz);
 }

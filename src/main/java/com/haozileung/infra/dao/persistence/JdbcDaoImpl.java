@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,7 +18,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.CollectionUtils;
 
-import com.haozileung.infra.utils.ClassUtil;
+import com.google.common.collect.Lists;
 import com.haozileung.infra.utils.NameUtil;
 
 /**
@@ -34,11 +35,6 @@ public class JdbcDaoImpl implements JdbcDao {
 	 * 名称处理器，为空按默认执行
 	 */
 	protected NameHandler nameHandler;
-
-	/**
-	 * rowMapper，为空按默认执行
-	 */
-	protected String rowMapperClass;
 
 	/**
 	 * 数据库方言
@@ -285,20 +281,49 @@ public class JdbcDaoImpl implements JdbcDao {
 				});
 	}
 
+	public int updateForObject(final String sql, final Object[] args) {
+		return jdbcTemplate.update(sql, args);
+	}
+
+	public <T> T queryForObject(final String sql, final Object[] args,
+			final Class<T> mappedClass) {
+		T obj = null;
+		obj = jdbcTemplate.queryForObject(sql, args, getRowMapper(mappedClass));
+		return obj;
+	}
+
+	public Long addForObject(final String sql, final Object[] args) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(sql,
+						Statement.RETURN_GENERATED_KEYS);
+				for (int i = 0; i < args.length; i++) {
+					ps.setObject(i + 1, args[i]);
+				}
+				return ps;
+			}
+		}, keyHolder);
+		return keyHolder.getKey().longValue();
+	}
+
+	public <T> List<T> queryForObjectList(final String sql,
+			final Object[] args, final Class<T> clazz) {
+		List<T> list = Lists.newArrayList();
+		list = jdbcTemplate.queryForList(sql, args, clazz);
+		return list;
+	}
+
 	/**
 	 * 获取rowMapper对象
 	 *
 	 * @param clazz
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	protected <T> RowMapper<T> getRowMapper(Class<T> clazz) {
-
-		if (StringUtils.isBlank(rowMapperClass)) {
-			return BeanPropertyRowMapper.newInstance(clazz);
-		} else {
-			return (RowMapper<T>) ClassUtil.newInstance(rowMapperClass);
-		}
+		return BeanPropertyRowMapper.newInstance(clazz);
 	}
 
 	/**
@@ -322,16 +347,7 @@ public class JdbcDaoImpl implements JdbcDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public void setRowMapperClass(String rowMapperClass) {
-		this.rowMapperClass = rowMapperClass;
-	}
-
 	public void setDialect(String dialect) {
 		this.dialect = dialect;
-	}
-
-	@Override
-	public JdbcOperations getJdbcTemplate() {
-		return jdbcTemplate;
 	}
 }

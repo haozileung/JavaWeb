@@ -1,0 +1,9 @@
+#set($layout="/layout/blank.html")
+<form id="userForm" action="$link.getContextPath()/user/addRoles" method="post">
+	<input type="hidden" name="uid" value="$uid" /> 
+	#foreach($r in $roles)
+	<div class="checkbox">
+		<label><input type="checkbox" name="roles" value="$r.id">$r.name</label>
+	</div>
+	#end
+</form>

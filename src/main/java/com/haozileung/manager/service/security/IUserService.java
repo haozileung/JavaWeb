@@ -1,6 +1,9 @@
 package com.haozileung.manager.service.security;
 
+import java.util.List;
+
 import com.haozileung.infra.dao.pager.Pager;
+import com.haozileung.manager.model.security.Role;
 import com.haozileung.manager.model.security.User;
 
 /**
@@ -8,13 +11,28 @@ import com.haozileung.manager.model.security.User;
  *
  */
 public interface IUserService {
+
+	/**
+	 * 
+	 * @param uid
+	 * @param roles
+	 */
+	void setRoles(Long uid, Long[] roles);
+
+	/**
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Role> getRoles(Long uid);
+
 	/**
 	 * 
 	 * @param email
 	 * @return
 	 */
 	User findUserByEmail(String email);
-	
+
 	/**
 	 * 
 	 * @param username

@@ -49,7 +49,15 @@
 			}
 		});
 	}
-
+	function setRoles(uid){
+		$("#myModal").modal('toggle');
+		$("#myModalLabel").html("分配角色");
+		$("#myModalBody").html("正在打开...");
+		$.get("$link.getContextPath()/user/roles?uid=" + uid,
+			function(data) {
+				$("#myModalBody").html(data);				
+			});
+	}
 	function show(uid) {
 		$("#myModal").modal('toggle');
 		$("#myModalLabel").html("修改用户");

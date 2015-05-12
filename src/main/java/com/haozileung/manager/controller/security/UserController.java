@@ -1,5 +1,6 @@
 package com.haozileung.manager.controller.security;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Maps;
 import com.haozileung.infra.dao.pager.Pager;
+import com.haozileung.manager.model.security.Role;
 import com.haozileung.manager.model.security.User;
 import com.haozileung.manager.service.security.IUserService;
 
@@ -64,6 +66,15 @@ public class UserController {
 		return mv;
 	}
 
+	@RequestMapping("/roles")
+	public ModelAndView roles(ModelAndView mv, Long uid) {
+		List<Role> roles = service.getRoles(uid);
+		mv.addObject("roles", roles);
+		mv.addObject("uid", uid);
+		mv.setViewName("/security/user/roles");
+		return mv;
+	}
+
 	@RequestMapping("/ban")
 	@ResponseBody
 	public Map<String, Object> ban(Long uid) {
@@ -110,6 +121,21 @@ public class UserController {
 		Map<String, Object> result = Maps.newHashMap();
 		try {
 			service.delete(uid);
+			result.put("status", 0);
+			result.put("message", "删除成功");
+		} catch (Exception e) {
+			result.put("status", -1);
+			result.put("message", e.getMessage());
+		}
+		return result;
+	}
+
+	@RequestMapping("/addRoles")
+	@ResponseBody
+	public Map<String, Object> addRoles(Long uid, Long[] roles) {
+		Map<String, Object> result = Maps.newHashMap();
+		try {
+			service.setRoles(uid, roles);
 			result.put("status", 0);
 			result.put("message", "删除成功");
 		} catch (Exception e) {

@@ -1,5 +1,7 @@
 package com.haozileung.manager.service.security.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +13,7 @@ import com.haozileung.infra.dao.interceptor.PageControl;
 import com.haozileung.infra.dao.pager.Pager;
 import com.haozileung.infra.dao.persistence.Criteria;
 import com.haozileung.infra.dao.persistence.JdbcDao;
+import com.haozileung.manager.model.security.Role;
 import com.haozileung.manager.model.security.User;
 import com.haozileung.manager.model.security.UserRole;
 import com.haozileung.manager.service.security.IUserService;
@@ -100,6 +103,25 @@ public class UserServiceImpl implements IUserService {
 	public User findUserByEmail(String email) {
 		return dao.querySingleResult(Criteria.create(User.class).where("email",
 				new Object[] { email }));
+	}
+
+	@Override
+	public List<Role> getRoles(Long uid) {
+		return dao.queryList(Criteria.create(Role.class).where("status",
+				new Object[] { 0 }));
+	}
+
+	@Override
+	public void setRoles(Long uid, Long[] roles) {
+		UserRole ur = new UserRole();
+		ur.setUserId(uid);
+		dao.delete(ur);
+		if (roles != null) {
+			for (int i = 0; i < roles.length; i++) {
+				ur.setRoleId(roles[i]);
+				dao.save(ur);
+			}
+		}
 	}
 
 }

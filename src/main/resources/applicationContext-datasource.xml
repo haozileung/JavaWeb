@@ -89,7 +89,7 @@
 			<ref bean="readDataSource" />
 		</property>
 	</bean>
-	<bean id="jdbcDao" class="com.haozileung.infra.dao.persistence.JdbcDaoImpl">
+	<bean id="jdbcDao" class="com.haozileung.infra.dao.persistence.JdbcDaoJdbcTemplateImpl">
 		<property name="writeJdbcTemplate" ref="writeJdbcTemplate" />
 		<property name="readJdbcTemplate" ref="readJdbcTemplate" />
 	</bean>

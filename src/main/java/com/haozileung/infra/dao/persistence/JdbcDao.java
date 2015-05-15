@@ -2,6 +2,8 @@ package com.haozileung.infra.dao.persistence;
 
 import java.util.List;
 
+import com.haozileung.infra.dao.pager.Pager;
+
 /**
  * jdbc操作dao
  */
@@ -225,6 +227,9 @@ public interface JdbcDao {
 	<T> T queryForObject(final String sql, final Object[] args,
 			final Class<T> mappedClass);
 
+	<T> List<T> queryForObjectList(final String sql, final Object[] args,
+			final Class<T> clazz);
+
 	/**
 	 * 
 	 * @param sql
@@ -233,13 +238,6 @@ public interface JdbcDao {
 	 */
 	Long addForObject(final String sql, final Object[] args);
 
-	/**
-	 * 
-	 * @param sql
-	 * @param args
-	 * @param clazz
-	 * @return
-	 */
-	<T> List<T> queryForObjectList(final String sql, final Object[] args,
-			final Class<T> clazz);
+	<T> Pager pageSearch(final String sql, final String countSql, Pager pager,
+			final Object[] args, final Class<T> clazz);
 }

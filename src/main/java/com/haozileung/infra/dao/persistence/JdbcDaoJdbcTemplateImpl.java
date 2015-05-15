@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -19,13 +21,16 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
+import com.haozileung.infra.dao.pager.Pager;
 import com.haozileung.infra.utils.NameUtil;
 
 /**
  * jdbc操作dao
  */
-public class JdbcDaoImpl implements JdbcDao {
+public class JdbcDaoJdbcTemplateImpl implements JdbcDao {
 
+	private static final Logger logger = LoggerFactory
+			.getLogger(JdbcDaoJdbcTemplateImpl.class);
 	/**
 	 * spring readJdbcTemplate 对象
 	 */
@@ -325,6 +330,20 @@ public class JdbcDaoImpl implements JdbcDao {
 		List<T> list = Lists.newArrayList();
 		list = readJdbcTemplate.queryForList(sql, args, clazz);
 		return list;
+	}
+
+	@Override
+	public <T> Pager pageSearch(final String sql, final String countSql,
+			Pager pager, final Object[] args, final Class<T> clazz) {
+		if (pager == null) {
+			logger.error("Pager Cann't be NULL! ");
+			return null;
+		}
+		List<T> data = queryForObjectList(sql, args, clazz);
+		pager.setList(data);
+		Long count = this.queryForObject(countSql, args, Long.class);
+		pager.setItemsTotal(count);
+		return pager;
 	}
 
 	/**

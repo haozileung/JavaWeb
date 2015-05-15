@@ -125,7 +125,7 @@ public class PageControl {
 	 * @return
 	 */
 	private String getCountSql(String sql) {
-		return "select count(*) from (" + sql + ") tmp_count";
+		return "SELECT COUNT(*) FROM (" + sql + ") tmp_count";
 	}
 
 	/**
@@ -137,19 +137,11 @@ public class PageControl {
 	 */
 	private String getPageSql(String sql, Pager pager) {
 		StringBuilder pageSql = new StringBuilder(200);
-		if ("MYSQL".equals(DATABASE)) {
-			pageSql.append(sql);
-			pageSql.append(" limit ");
-			pageSql.append(pager.getBeginIndex());
-			pageSql.append(",");
-			pageSql.append(pager.getItemsPerPage());
-		} else if ("ORACLE".equals(DATABASE)) {
-			pageSql.append("select * from ( select rownum num,temp.* from (");
-			pageSql.append(sql);
-			pageSql.append(") temp where rownum <= ").append(
-					pager.getEndIndex());
-			pageSql.append(") where num > ").append(pager.getBeginIndex());
-		}
+		pageSql.append(sql);
+		pageSql.append(" LIMIT ");
+		pageSql.append(pager.getBeginIndex());
+		pageSql.append(",");
+		pageSql.append(pager.getItemsPerPage());
 		return pageSql.toString();
 	}
 }

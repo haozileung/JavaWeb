@@ -308,6 +308,18 @@ public class JdbcDaoJdbcTemplateImpl implements JdbcDao {
 		return obj;
 	}
 
+	public <T> T queryForSimpleObject(final String sql, final Object[] args,
+			final Class<T> mappedClass) {
+		T obj = null;
+		obj = readJdbcTemplate.queryForObject(sql, args, mappedClass);
+		return obj;
+	}
+
+	public <T> List<T> queryForSimpleObjectList(String sql, Object[] args,
+			final Class<T> mappedClass) {
+		return this.queryForObjectList(sql, args, mappedClass);
+	}
+
 	public Long addForObject(final String sql, final Object[] args) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		writeJdbcTemplate.update(new PreparedStatementCreator() {

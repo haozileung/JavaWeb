@@ -227,6 +227,33 @@ public interface JdbcDao {
 	<T> T queryForObject(final String sql, final Object[] args,
 			final Class<T> mappedClass);
 
+	/**
+	 * 
+	 * @param sql
+	 * @param args
+	 * @param mappedClass
+	 * @return
+	 */
+	<T> T queryForSimpleObject(final String sql, final Object[] args,
+			final Class<T> mappedClass);
+
+	/**
+	 * 
+	 * @param sql
+	 * @param args
+	 * @param mappedClass
+	 * @return
+	 */
+	<T> List<T> queryForSimpleObjectList(String sql, Object[] args,
+			final Class<T> mappedClass);
+
+	/**
+	 * 
+	 * @param sql
+	 * @param args
+	 * @param clazz
+	 * @return
+	 */
 	<T> List<T> queryForObjectList(final String sql, final Object[] args,
 			final Class<T> clazz);
 

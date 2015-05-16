@@ -43,7 +43,6 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	@CacheEvict(value = "menu")
 	public Long save(Resource resource) throws Exception {
 		Resource r = dao.querySingleResult(Criteria.create(Resource.class)
 				.where("code", new Object[] { resource.getCode() })
@@ -55,7 +54,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	@CacheEvict(value = "menu")
+	@CacheEvict(value = "resource")
 	public void update(Resource resource) throws Exception {
 		if (resource.getId() == null) {
 			new Exception("ID不能为空");
@@ -70,7 +69,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	@CacheEvict(value = "menu")
+	@CacheEvict(value = "resource")
 	public void delete(Long id) {
 		if (id != null) {
 			Resource r = new Resource();
@@ -83,7 +82,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	@CacheEvict(value = "menu")
+	@CacheEvict(value = "resource")
 	public void ban(Long id) {
 		if (id != null) {
 			Resource resource = dao.get(Resource.class, id);
@@ -97,6 +96,7 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
+	@Cacheable(value = "resource", key = "'groups'")
 	public List<Resource> getResourceGroups() {
 		return dao.queryList(Criteria.create(Resource.class).where("groupId",
 				new Object[] { 0 }));
@@ -123,10 +123,10 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	@Cacheable(value = "menu")
+	@Cacheable(value = "resource", key = "'menus'")
 	public List<Resource> findMenu() {
 		List<Resource> menus = dao.queryList(Criteria.create(Resource.class)
-				.where("type", "in", new Object[] { 0, 1 }));
+				.where("type", "in", new Object[] { 0, 1 }).asc("orderNo"));
 		List<Resource> result = Lists.newArrayList();
 		for (Resource r : menus) {
 			if (SecurityUtils.getSubject().isPermitted(r.getCode())) {

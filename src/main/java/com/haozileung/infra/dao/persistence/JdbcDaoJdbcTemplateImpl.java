@@ -353,7 +353,7 @@ public class JdbcDaoJdbcTemplateImpl implements JdbcDao {
 		}
 		List<T> data = queryForObjectList(sql, args, clazz);
 		pager.setList(data);
-		Long count = this.queryForObject(countSql, args, Long.class);
+		Long count = this.queryForSimpleObject(countSql, args, Long.class);
 		pager.setItemsTotal(count);
 		return pager;
 	}

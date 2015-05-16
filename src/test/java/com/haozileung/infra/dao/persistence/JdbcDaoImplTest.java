@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -21,6 +22,7 @@ import com.haozileung.manager.model.security.User;
 public class JdbcDaoImplTest {
 
 	@Autowired
+	@Qualifier("jdbcTemplateDao")
 	private JdbcDao dao;
 
 	@Test

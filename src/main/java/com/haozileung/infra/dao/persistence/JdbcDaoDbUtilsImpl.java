@@ -29,6 +29,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 	protected QueryRunner runner;
 
 	protected DataSource writeDataSource;
+	protected DataSource readDataSource;
 	/**
 	 * 名称处理器，为空按默认执行
 	 */
@@ -185,7 +186,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 				this.getNameHandler());
 		List<T> list = null;
 		try {
-			list = runner.query(boundSql.getSql(), new BeanListHandler<T>(
+			list = runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(), new BeanListHandler<T>(
 					(Class<T>) criteria.getEntityClass()), boundSql.getParams()
 					.toArray());
 		} catch (SQLException e) {
@@ -201,7 +202,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 				this.getNameHandler());
 		List<T> list = null;
 		try {
-			list = runner.query(boundSql.getSql(), new BeanListHandler<T>(
+			list = runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(), new BeanListHandler<T>(
 					(Class<T>) entity.getClass()), boundSql.getParams()
 					.toArray());
 		} catch (SQLException e) {
@@ -217,7 +218,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 				this.getNameHandler());
 		List<T> list = null;
 		try {
-			list = runner.query(boundSql.getSql(), new BeanListHandler<T>(
+			list = runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(), new BeanListHandler<T>(
 					(Class<T>) entity.getClass()), boundSql.getParams()
 					.toArray());
 		} catch (SQLException e) {
@@ -231,7 +232,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		BoundSql boundSql = SqlAssembleUtils.buildCountSql(entity, criteria,
 				this.getNameHandler());
 		try {
-			return runner.query(boundSql.getSql(),
+			return runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(),
 					new ScalarHandler<Integer>(), boundSql.getParams()
 							.toArray());
 		} catch (SQLException e) {
@@ -245,7 +246,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		BoundSql boundSql = SqlAssembleUtils.buildCountSql(entity, null,
 				this.getNameHandler());
 		try {
-			return runner.query(boundSql.getSql(),
+			return runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(),
 					new ScalarHandler<Integer>(), boundSql.getParams()
 							.toArray());
 		} catch (SQLException e) {
@@ -259,7 +260,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		BoundSql boundSql = SqlAssembleUtils.buildCountSql(null, criteria,
 				this.getNameHandler());
 		try {
-			return runner.query(boundSql.getSql(),
+			return runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(),
 					new ScalarHandler<Integer>(), boundSql.getParams()
 							.toArray());
 		} catch (SQLException e) {
@@ -273,7 +274,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		BoundSql boundSql = SqlAssembleUtils.buildByIdSql(clazz, id, null,
 				this.getNameHandler());
 		try {
-			return runner.query(boundSql.getSql(), new BeanHandler<T>(clazz),
+			return runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(), new BeanHandler<T>(clazz),
 					id);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
@@ -287,7 +288,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		BoundSql boundSql = SqlAssembleUtils.buildByIdSql(null, id, criteria,
 				this.getNameHandler());
 		try {
-			return runner.query(boundSql.getSql(), new BeanHandler<T>(
+			return runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(), new BeanHandler<T>(
 					(Class<T>) criteria.getEntityClass()), boundSql.getParams()
 					.toArray());
 		} catch (SQLException e) {
@@ -303,7 +304,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 				this.getNameHandler());
 
 		try {
-			return runner.query(boundSql.getSql(), new BeanHandler<T>(
+			return runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(), new BeanHandler<T>(
 					(Class<T>) entity.getClass()), boundSql.getParams()
 					.toArray());
 		} catch (SQLException e) {
@@ -318,7 +319,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		BoundSql boundSql = SqlAssembleUtils.buildQuerySql(null, criteria,
 				this.getNameHandler());
 		try {
-			return runner.query(boundSql.getSql(), new BeanHandler<T>(
+			return runner.query(DataSourceUtils.getConnection(readDataSource),boundSql.getSql(), new BeanHandler<T>(
 					(Class<T>) criteria.getEntityClass()), boundSql.getParams()
 					.toArray());
 		} catch (SQLException e) {
@@ -335,7 +336,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		String tmp_sql = "select t.%s from %s t where t.%s = ?";
 		String sql = String.format(tmp_sql, columnName, tableName, primaryName);
 		try {
-			return runner.query(sql, new ScalarHandler<byte[]>(),
+			return runner.query(DataSourceUtils.getConnection(readDataSource),sql, new ScalarHandler<byte[]>(),
 					new Object[] { id });
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
@@ -356,7 +357,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 	public <T> T queryForObject(final String sql, final Object[] args,
 			final Class<T> mappedClass) {
 		try {
-			return runner.query(sql, new BeanHandler<T>(mappedClass), args);
+			return runner.query(DataSourceUtils.getConnection(readDataSource),sql, new BeanHandler<T>(mappedClass), args);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 			return null;
@@ -377,7 +378,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 	public <T> List<T> queryForObjectList(final String sql,
 			final Object[] args, final Class<T> clazz) {
 		try {
-			return runner.query(sql, new BeanListHandler<T>(clazz), args);
+			return runner.query(DataSourceUtils.getConnection(readDataSource),sql, new BeanListHandler<T>(clazz), args);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 			return null;
@@ -393,7 +394,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 		}
 		List<T> data = queryForObjectList(sql, args, clazz);
 		pager.setList(data);
-		Long count = this.queryForObject(countSql, args, Long.class);
+		Long count = this.queryForSimpleObject(countSql, args, Long.class);
 		pager.setItemsTotal(count);
 		return pager;
 	}
@@ -431,7 +432,7 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 	public <T> T queryForSimpleObject(String sql, Object[] args,
 			Class<T> mappedClass) {
 		try {
-			return runner.query(sql, new ScalarHandler<T>(), args);
+			return runner.query(DataSourceUtils.getConnection(readDataSource),sql, new ScalarHandler<T>(), args);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 			return null;
@@ -441,10 +442,14 @@ public class JdbcDaoDbUtilsImpl implements JdbcDao {
 	public <T> List<T> queryForSimpleObjectList(String sql, Object[] args,
 			final Class<T> mappedClass) {
 		try {
-			return runner.query(sql, new ColumnListHandler<T>(), args);
+			return runner.query(DataSourceUtils.getConnection(readDataSource),sql, new ColumnListHandler<T>(), args);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 			return null;
 		}
+	}
+
+	public void setReadDataSource(DataSource readDataSource) {
+		this.readDataSource = readDataSource;
 	}
 }

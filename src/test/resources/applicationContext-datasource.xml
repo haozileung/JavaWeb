@@ -80,17 +80,28 @@
 	</bean>
 	<tx:annotation-driven transaction-manager="txManager"
 		proxy-target-class="true" />
-	<bean id="writeJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
-		<property name="dataSource"> <ref bean="writeDataSource" /> </property> </bean> 
-		<bean id="readJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
-		<property name="dataSource"> <ref bean="readDataSource" /> </property> </bean> 
-		<bean id="jdbcDao" class="com.haozileung.infra.dao.persistence.JdbcDaoJdbcTemplateImpl"> 
-		<property name="writeJdbcTemplate" ref="writeJdbcTemplate" /> <property name="readJdbcTemplate" 
-		ref="readJdbcTemplate" /> </bean> <bean id="pageControl" class="com.haozileung.infra.dao.interceptor.PageControl" 
-		/>
-	<!-- <bean id="runner" class="org.apache.commons.dbutils.QueryRunner"> <constructor-arg 
-		name="ds" ref="readDataSource" /> </bean> <bean id="jdbcDao" class="com.haozileung.infra.dao.persistence.JdbcDaoDbUtilsImpl"> 
-		<property name="runner" ref="runner" /> <property name="writeDataSource" 
-		ref="writeDataSource" /> </bean> -->
-
+	<bean id="writeJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="writeDataSource" />
+		</property>
+	</bean>
+	<bean id="readJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="readDataSource" />
+		</property>
+	</bean>
+	<bean id="jdbcTemplateDao"
+		class="com.haozileung.infra.dao.persistence.JdbcDaoJdbcTemplateImpl">
+		<property name="writeJdbcTemplate" ref="writeJdbcTemplate" />
+		<property name="readJdbcTemplate" ref="readJdbcTemplate" />
+	</bean>
+	<bean id="pageControl" class="com.haozileung.infra.dao.interceptor.PageControl" />
+	<bean id="runner" class="org.apache.commons.dbutils.QueryRunner">
+		<constructor-arg name="ds" ref="readDataSource" />
+	</bean>
+	<bean id="dbUtilsDao" class="com.haozileung.infra.dao.persistence.JdbcDaoDbUtilsImpl">
+		<property name="runner" ref="runner" />
+		<property name="writeDataSource" ref="writeDataSource" />
+		<property name="readDataSource" ref="readDataSource" />
+	</bean>
 </beans>

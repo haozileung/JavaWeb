@@ -78,7 +78,8 @@
 			<ref bean="writeDataSource" />
 		</property>
 	</bean>
-	<tx:annotation-driven transaction-manager="txManager" />
+	<tx:annotation-driven transaction-manager="txManager"
+		proxy-target-class="true" />
 	<bean id="writeJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource">
 			<ref bean="writeDataSource" />
@@ -89,7 +90,8 @@
 			<ref bean="readDataSource" />
 		</property>
 	</bean>
-	<bean id="jdbcDao" class="com.haozileung.infra.dao.persistence.JdbcDaoJdbcTemplateImpl">
+	<bean id="jdbcTemplateDao"
+		class="com.haozileung.infra.dao.persistence.JdbcDaoJdbcTemplateImpl">
 		<property name="writeJdbcTemplate" ref="writeJdbcTemplate" />
 		<property name="readJdbcTemplate" ref="readJdbcTemplate" />
 	</bean>

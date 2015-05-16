@@ -136,5 +136,4 @@ public class ResourceServiceImpl implements IResourceService {
 		}
 		return result;
 	}
-
 }

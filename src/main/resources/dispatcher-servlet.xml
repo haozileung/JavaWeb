@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd
@@ -11,62 +10,65 @@
             http://www.springframework.org/schema/mvc/spring-mvc.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
-    <mvc:annotation-driven>
-        <mvc:message-converters register-defaults="true">
-            <bean id="fastJsonHttpMessageConverter"
-                  class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-                <property name="charset" value="UTF-8"/>
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>application/json</value>
-                    </list>
-                </property>
-                <property name="features">
-                    <list>
-                        <value>WriteMapNullValue</value>
-                        <value>QuoteFieldNames</value>
-                        <value>WriteDateUseDateFormat</value>
-                    </list>
-                </property>
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
-    <context:component-scan base-package="com.haozileung.manager.controller"/>
-    <bean id="velocityConfigurer"
-          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-        <property name="configLocation" value="classpath:velocity.properties"/>
-    </bean>
-    <bean id="velocityViewResolver"
-          class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
-        <property name="contentType" value="text/html;charset=UTF-8"/>
-        <property name="toolboxConfigLocation" value="/WEB-INF/tools.xml"/>
-        <property name="viewClass"
-                  value="com.haozileung.infra.velocity.VelocityToolsView"/>
-        <property name="cache" value="true"/>
-        <property name="layoutUrl" value="layout/default.html"/>
-        <property name="suffix" value=".html"/>
-    </bean>
-    <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->
-    <mvc:default-servlet-handler/>
-    <bean id="exceptionResolver"
-          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="exceptionMappings">
-            <props>
-                <prop key="java.lang.Exception">errors/error</prop>
-                <prop key="java.lang.Throwable">errors/404</prop>
-            </props>
-        </property>
-        <property name="statusCodes">
-            <props>
-                <prop key="errors/error">500</prop>
-                <prop key="errors/404">404</prop>
-            </props>
-        </property>
-        <!-- 设置日志输出级别，不定义则默认不输出警告等错误日志信息 -->
-        <property name="warnLogCategory" value="WARN"></property>
-        <!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 -->
-        <property name="defaultErrorView" value="errors/error"></property>
-        <!-- 默认HTTP状态码 -->
-        <property name="defaultStatusCode" value="500"></property>
-    </bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean id="fastJsonHttpMessageConverter"
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="charset" value="UTF-8" />
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json</value>
+					</list>
+				</property>
+				<property name="features">
+					<list>
+						<value>WriteMapNullValue</value>
+						<value>QuoteFieldNames</value>
+						<value>WriteDateUseDateFormat</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<mvc:interceptors>
+		<bean class="com.haozileung.infra.utils.SpringMVCPrintRequestUtil"></bean>
+	</mvc:interceptors>
+	<context:component-scan base-package="com.haozileung.manager.controller" />
+	<bean id="velocityConfigurer"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="configLocation" value="classpath:velocity.properties" />
+	</bean>
+	<bean id="velocityViewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="toolboxConfigLocation" value="/WEB-INF/tools.xml" />
+		<property name="viewClass"
+			value="com.haozileung.infra.velocity.VelocityToolsView" />
+		<property name="cache" value="true" />
+		<property name="layoutUrl" value="layout/default.html" />
+		<property name="suffix" value=".html" />
+	</bean>
+	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->
+	<mvc:default-servlet-handler />
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">errors/error</prop>
+				<prop key="java.lang.Throwable">errors/404</prop>
+			</props>
+		</property>
+		<property name="statusCodes">
+			<props>
+				<prop key="errors/error">500</prop>
+				<prop key="errors/404">404</prop>
+			</props>
+		</property>
+		<!-- 设置日志输出级别，不定义则默认不输出警告等错误日志信息 -->
+		<property name="warnLogCategory" value="WARN"></property>
+		<!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 -->
+		<property name="defaultErrorView" value="errors/error"></property>
+		<!-- 默认HTTP状态码 -->
+		<property name="defaultStatusCode" value="500"></property>
+	</bean>
 </beans>

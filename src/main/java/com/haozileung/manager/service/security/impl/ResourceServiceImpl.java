@@ -126,7 +126,7 @@ public class ResourceServiceImpl implements IResourceService {
 	@Cacheable(value = "menu")
 	public List<Resource> findMenu() {
 		List<Resource> menus = dao.queryList(Criteria.create(Resource.class)
-				.where("type", "in", new Object[] { 0, 1 }));
+				.where("type", "in", new Object[] { 0, 1 }).asc("orderNo"));
 		List<Resource> result = Lists.newArrayList();
 		for (Resource r : menus) {
 			if (SecurityUtils.getSubject().isPermitted(r.getCode())) {

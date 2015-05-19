@@ -16,6 +16,7 @@ public class Resource implements Serializable {
 	private String icon;
 	private String url;
 	private String type;
+	private Integer orderNo;
 	private Long groupId;
 	private Integer status;
 
@@ -92,5 +93,13 @@ public class Resource implements Serializable {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public Integer getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(Integer orderNo) {
+		this.orderNo = orderNo;
 	}
 }

@@ -340,7 +340,7 @@ public class JdbcDaoJdbcTemplateImpl implements JdbcDao {
 	public <T> List<T> queryForObjectList(final String sql,
 			final Object[] args, final Class<T> clazz) {
 		List<T> list = Lists.newArrayList();
-		list = readJdbcTemplate.queryForList(sql, args, clazz);
+		list = readJdbcTemplate.query(sql, args, getRowMapper(clazz));
 		return list;
 	}
 

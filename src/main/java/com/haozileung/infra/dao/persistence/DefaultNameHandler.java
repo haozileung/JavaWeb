@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.haozileung.infra.dao.annotation.Column;
 import com.haozileung.infra.dao.annotation.ID;
 import com.haozileung.infra.dao.annotation.Table;
 
@@ -14,8 +16,8 @@ import com.haozileung.infra.dao.annotation.Table;
  */
 public class DefaultNameHandler implements NameHandler {
 
-	private Map<Class<?>, String> tableNameMap = Maps.newConcurrentMap();
-	private Map<Class<?>, String> idMap = Maps.newConcurrentMap();
+	private Map<Class<?>, Map<String, String>> nameMap = Maps
+			.newConcurrentMap();
 
 	/**
 	 * 根据实体名获取表名
@@ -25,32 +27,45 @@ public class DefaultNameHandler implements NameHandler {
 	 */
 	@Override
 	public String getTableName(Class<?> entityClass) {
-		if (!tableNameMap.containsKey(entityClass)) {
+		if (!nameMap.containsKey(entityClass)) {
 			init(entityClass);
 		}
-		return tableNameMap.get(entityClass);
+		return nameMap.get(entityClass).get("_tableName_");
 	}
 
 	private void init(Class<?> entityClass) {
-		String tableName = entityClass.getSimpleName();
-		String keyName = "id";
+		String tableName;
+		String keyName;
 		// 获得实体的字段(包括父类）
-		Class<?> clazz = entityClass;
-		for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
-			Field[] fields = clazz.getDeclaredFields();
-			if (clazz.getAnnotation(Table.class) != null) {
-				// 初始化表名
-				tableName = clazz.getAnnotation(Table.class).name();
+		Map<String, String> map = Maps.newConcurrentMap();
+		Field[] fields = entityClass.getDeclaredFields();
+		if (entityClass.getAnnotation(Table.class) != null) {
+			// 初始化表名
+			String tmp = entityClass.getAnnotation(Table.class).value();
+			if (!Strings.isNullOrEmpty(tmp)) {
+				tableName = tmp;
+			} else {
+				tableName = entityClass.getSimpleName();
 			}
-			for (Field f : fields) {// 拿到这个实体的主键名
-				if (f.getAnnotation(ID.class) != null) {
+			map.put("_tableName_", tableName);
+		}
+		for (Field f : fields) {
+			// 拿到这个实体的主键名
+			if (f.getAnnotation(ID.class) != null) {
+				if (f.getAnnotation(Column.class) != null) {
+					keyName = f.getAnnotation(Column.class).value();
+				} else {
 					keyName = f.getName();
-					break;
 				}
+				map.put("_keyName_", keyName);
+			}
+			if (f.getAnnotation(Column.class) != null) {
+				map.put(f.getName(), f.getAnnotation(Column.class).value());
+			} else {
+				map.put(f.getName(), f.getName());
 			}
 		}
-		tableNameMap.put(entityClass, tableName);
-		idMap.put(entityClass, keyName);
+		nameMap.put(entityClass, map);
 	}
 
 	/**
@@ -61,10 +76,10 @@ public class DefaultNameHandler implements NameHandler {
 	 */
 	@Override
 	public String getPKName(Class<?> entityClass) {
-		if (!idMap.containsKey(entityClass)) {
+		if (!nameMap.containsKey(entityClass)) {
 			init(entityClass);
 		}
-		return idMap.get(entityClass);
+		return nameMap.get(entityClass).get("_keyName_");
 	}
 
 	/**
@@ -74,8 +89,11 @@ public class DefaultNameHandler implements NameHandler {
 	 * @return
 	 */
 	@Override
-	public String getColumnName(String fieldName) {
-		return fieldName;
+	public String getColumnName(Class<?> entityClass, String fieldName) {
+		if (!nameMap.containsKey(entityClass)) {
+			init(entityClass);
+		}
+		return nameMap.get(entityClass).get(fieldName);
 	}
 
 	/**

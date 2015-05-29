@@ -280,7 +280,7 @@ public class JdbcDaoJdbcTemplateImpl implements JdbcDao {
 	public byte[] getBlobValue(Class<?> clazz, String fieldName, Long id) {
 		String tableName = nameHandler.getTableName(clazz);
 		String primaryName = nameHandler.getPKName(clazz);
-		String columnName = nameHandler.getColumnName(fieldName);
+		String columnName = nameHandler.getColumnName(clazz, fieldName);
 		String tmp_sql = "select t.%s from %s t where t.%s = ?";
 		String sql = String.format(tmp_sql, columnName, tableName, primaryName);
 		return readJdbcTemplate.query(sql, new Object[] { id },

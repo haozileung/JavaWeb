@@ -27,7 +27,7 @@ public interface NameHandler {
 	 * @param fieldName
 	 * @return
 	 */
-	String getColumnName(String fieldName);
+	String getColumnName(Class<?> entityClass, String fieldName);
 
 	/**
 	 * 根据实体名获取主键序列名 oracle才有用 自增类主键数据库直接返回null即可

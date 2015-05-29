@@ -91,7 +91,8 @@ public class SqlAssembleUtils {
 					&& autoField.getType() != AutoField.PK_VALUE_NAME) {
 				continue;
 			}
-			String columnName = nameHandler.getColumnName(autoField.getName());
+			String columnName = nameHandler.getColumnName(entityClass,
+					autoField.getName());
 			Object value = autoField.getValues()[0];
 
 			sql.append(columnName);
@@ -158,7 +159,8 @@ public class SqlAssembleUtils {
 				continue;
 			}
 
-			String columnName = nameHandler.getColumnName(autoField.getName());
+			String columnName = nameHandler.getColumnName(entityClass,
+					autoField.getName());
 
 			// 如果是主键
 			if (StringUtils.equalsIgnoreCase(primaryName, columnName)) {
@@ -207,8 +209,8 @@ public class SqlAssembleUtils {
 			sql.append(primaryName).append(" = ?");
 			params.add(primaryValue);
 		} else {
-			BoundSql boundSql = SqlAssembleUtils.builderWhereSql(autoFields,
-					nameHandler);
+			BoundSql boundSql = SqlAssembleUtils.builderWhereSql(entityClass,
+					autoFields, nameHandler);
 			sql.append(boundSql.getSql());
 			params.addAll(boundSql.getParams());
 		}
@@ -275,8 +277,8 @@ public class SqlAssembleUtils {
 	 *            the name handler
 	 * @return bound sql
 	 */
-	private static BoundSql builderWhereSql(List<AutoField> autoFields,
-			NameHandler nameHandler) {
+	private static BoundSql builderWhereSql(Class<?> clazz,
+			List<AutoField> autoFields, NameHandler nameHandler) {
 
 		StringBuilder sql = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
@@ -291,7 +293,8 @@ public class SqlAssembleUtils {
 			if (sql.length() > 0) {
 				sql.append(" ").append(autoField.getSqlOperator()).append(" ");
 			}
-			String columnName = nameHandler.getColumnName(autoField.getName());
+			String columnName = nameHandler.getColumnName(clazz,
+					autoField.getName());
 			Object[] values = autoField.getValues();
 
 			if (StringUtils.equalsIgnoreCase(IN,
@@ -385,8 +388,8 @@ public class SqlAssembleUtils {
 
 		StringBuilder sql = new StringBuilder("DELETE FROM " + tableName
 				+ " WHERE ");
-		BoundSql boundSql = SqlAssembleUtils.builderWhereSql(autoFields,
-				nameHandler);
+		BoundSql boundSql = SqlAssembleUtils.builderWhereSql(entityClass,
+				autoFields, nameHandler);
 		boundSql.setSql(sql.append(boundSql.getSql()).toString());
 		boundSql.setPrimaryKey(primaryName);
 
@@ -454,16 +457,17 @@ public class SqlAssembleUtils {
 				nameHandler,
 				criteria == null ? null : criteria.getIncludeFields(),
 				criteria == null ? null : criteria.getExcludeFields());
-		StringBuilder querySql = new StringBuilder("SELECT " + columns
-				+ " FROM ");
+		StringBuilder querySql = new StringBuilder("SELECT ");
+		querySql.append(columns);
+		querySql.append(" FROM ");
 		querySql.append(tableName);
 
 		List<Object> params = Collections.emptyList();
 		if (!CollectionUtils.isEmpty(autoFields)) {
 			querySql.append(" WHERE ");
 
-			BoundSql boundSql = SqlAssembleUtils.builderWhereSql(autoFields,
-					nameHandler);
+			BoundSql boundSql = SqlAssembleUtils.builderWhereSql(entityClass,
+					autoFields, nameHandler);
 			params = boundSql.getParams();
 			querySql.append(boundSql.getSql());
 		}
@@ -493,9 +497,11 @@ public class SqlAssembleUtils {
 
 			for (AutoField autoField : criteria.getOrderByFields()) {
 
-				sb.append(nameHandler.getColumnName(autoField.getName()))
-						.append(" ").append(autoField.getFieldOperator())
-						.append(",");
+				sb.append(
+						nameHandler.getColumnName(
+								getEntityClass(entity, criteria),
+								autoField.getName())).append(" ")
+						.append(autoField.getFieldOperator()).append(",");
 			}
 
 			if (sb.length() > 10) {
@@ -539,7 +545,9 @@ public class SqlAssembleUtils {
 		List<Object> params = Collections.emptyList();
 		if (!CollectionUtils.isEmpty(autoFields)) {
 			countSql.append(" WHERE ");
-			BoundSql boundSql = builderWhereSql(autoFields, nameHandler);
+			BoundSql boundSql = builderWhereSql(
+					getEntityClass(entityAutoField, criteria), autoFields,
+					nameHandler);
 			countSql.append(boundSql.getSql());
 			params = boundSql.getParams();
 		}
@@ -583,56 +591,14 @@ public class SqlAssembleUtils {
 				continue;
 			}
 
-			String columnName = nameHandler.getColumnName(fieldName);
+			String columnName = nameHandler.getColumnName(clazz, fieldName);
 			columns.append(columnName);
+			columns.append(" AS ");
+			columns.append(fieldName);
 			columns.append(",");
 		}
 		columns.deleteCharAt(columns.length() - 1);
 		return columns.toString();
-	}
-
-	/**
-	 * 构建排序条件
-	 *
-	 * @param sort
-	 * @param nameHandler
-	 * @param properties
-	 */
-	public static String buildOrderBy(String sort, NameHandler nameHandler,
-			String... properties) {
-
-		StringBuilder sb = new StringBuilder();
-		for (String property : properties) {
-			String columnName = nameHandler.getColumnName(property);
-			sb.append(columnName);
-			sb.append(" ");
-			sb.append(sort);
-			sb.append(",");
-		}
-		sb.deleteCharAt(sb.length() - 1);
-		return sb.toString();
-	}
-
-	/**
-	 * 构建查询oracle xmltype类型的sql
-	 *
-	 * @param clazz
-	 * @param fieldName
-	 * @param id
-	 * @param nameHandler
-	 * @return
-	 */
-	public static BoundSql buildOracleXmlTypeSql(Class<?> clazz,
-			String fieldName, Long id, NameHandler nameHandler) {
-		String tableName = nameHandler.getTableName(clazz);
-		String primaryName = nameHandler.getPKName(clazz);
-		String columnName = nameHandler.getColumnName(fieldName);
-
-		String sql_tmp = "SELECT t.%s.getclobval() xmlFile FROM %s t WHERE t.%s = ?";
-		String sql = String.format(sql_tmp, columnName, tableName, primaryName);
-		List<Object> params = new ArrayList<Object>();
-		params.add(id);
-		return new BoundSql(sql, primaryName, params);
 	}
 
 	/**

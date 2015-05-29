@@ -7,14 +7,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 仅用来获取表名
- * @author Administrator
- *
+ * 用来获取表名
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Table {
-	
-	String name() default "";
+
+	String value() default "";
 }

@@ -26,7 +26,6 @@ public class JdbcDaoImplTest {
 	private JdbcDao dao;
 
 	@Test
-	@Transactional
 	public void testInsertObject() {
 		User u = new User();
 		u.setName("test");
@@ -37,7 +36,7 @@ public class JdbcDaoImplTest {
 				"name", new Object[] { "test" }));
 		System.out.println(user);
 		List<String> email = dao.queryForSimpleObjectList(
-				"select email value from user ", null, String.class);
+				"select email from t_user ", null, String.class);
 		System.out.println(email);
 	}
 

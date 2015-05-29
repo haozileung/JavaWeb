@@ -99,9 +99,9 @@
 	<bean id="runner" class="org.apache.commons.dbutils.QueryRunner">
 		<constructor-arg name="ds" ref="readDataSource" />
 	</bean>
-	<bean id="dbUtilsDao" class="com.haozileung.infra.dao.persistence.JdbcDaoDbUtilsImpl">
+	<!-- <bean id="dbUtilsDao" class="com.haozileung.infra.dao.persistence.JdbcDaoDbUtilsImpl">
 		<property name="runner" ref="runner" />
 		<property name="writeDataSource" ref="writeDataSource" />
 		<property name="readDataSource" ref="readDataSource" />
-	</bean>
+	</bean> -->
 </beans>

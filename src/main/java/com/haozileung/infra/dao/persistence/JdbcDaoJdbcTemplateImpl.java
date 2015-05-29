@@ -317,7 +317,7 @@ public class JdbcDaoJdbcTemplateImpl implements JdbcDao {
 
 	public <T> List<T> queryForSimpleObjectList(String sql, Object[] args,
 			final Class<T> mappedClass) {
-		return this.queryForObjectList(sql, args, mappedClass);
+		return readJdbcTemplate.queryForList(sql, args, mappedClass);
 	}
 
 	public Long addForObject(final String sql, final Object[] args) {

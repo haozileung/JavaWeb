@@ -1,13 +1,21 @@
 package com.haozileung.infra.dao.persistence;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 
-import com.haozileung.infra.utils.NameUtil;
+import com.google.common.collect.Maps;
+import com.haozileung.infra.dao.annotation.ID;
+import com.haozileung.infra.dao.annotation.Table;
 
 /**
  * 默认名称处理handler
  */
 public class DefaultNameHandler implements NameHandler {
+
+	private Map<Class<?>, String> tableNameMap = Maps.newConcurrentMap();
+	private Map<Class<?>, String> idMap = Maps.newConcurrentMap();
 
 	/**
 	 * 根据实体名获取表名
@@ -17,8 +25,32 @@ public class DefaultNameHandler implements NameHandler {
 	 */
 	@Override
 	public String getTableName(Class<?> entityClass) {
-		// Java属性的骆驼命名法转换回数据库下划线“_”分隔的格式
-		return NameUtil.getUnderlineName(entityClass.getSimpleName());
+		if (!tableNameMap.containsKey(entityClass)) {
+			init(entityClass);
+		}
+		return tableNameMap.get(entityClass);
+	}
+
+	private void init(Class<?> entityClass) {
+		String tableName = entityClass.getSimpleName();
+		String keyName = "id";
+		// 获得实体的字段(包括父类）
+		Class<?> clazz = entityClass;
+		for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
+			Field[] fields = clazz.getDeclaredFields();
+			if (clazz.getAnnotation(Table.class) != null) {
+				// 初始化表名
+				tableName = clazz.getAnnotation(Table.class).name();
+			}
+			for (Field f : fields) {// 拿到这个实体的主键名
+				if (f.getAnnotation(ID.class) != null) {
+					keyName = f.getName();
+					break;
+				}
+			}
+		}
+		tableNameMap.put(entityClass, tableName);
+		idMap.put(entityClass, keyName);
 	}
 
 	/**
@@ -29,7 +61,10 @@ public class DefaultNameHandler implements NameHandler {
 	 */
 	@Override
 	public String getPKName(Class<?> entityClass) {
-		return "id";
+		if (!idMap.containsKey(entityClass)) {
+			init(entityClass);
+		}
+		return idMap.get(entityClass);
 	}
 
 	/**
@@ -40,8 +75,7 @@ public class DefaultNameHandler implements NameHandler {
 	 */
 	@Override
 	public String getColumnName(String fieldName) {
-		String underlineName = NameUtil.getUnderlineName(fieldName);
-		return underlineName;
+		return fieldName;
 	}
 
 	/**

@@ -34,21 +34,19 @@ public class DefaultNameHandler implements NameHandler {
 	}
 
 	private void init(Class<?> entityClass) {
-		String tableName;
-		String keyName;
+		String tableName = entityClass.getSimpleName();
+		String keyName = "id";
 		// 获得实体的字段(包括父类）
 		Map<String, String> map = Maps.newConcurrentMap();
 		Field[] fields = entityClass.getDeclaredFields();
 		if (entityClass.getAnnotation(Table.class) != null) {
 			// 初始化表名
-			String tmp = entityClass.getAnnotation(Table.class).value();
-			if (!Strings.isNullOrEmpty(tmp)) {
-				tableName = tmp;
-			} else {
+			tableName = entityClass.getAnnotation(Table.class).value();
+			if (Strings.isNullOrEmpty(tableName)) {
 				tableName = entityClass.getSimpleName();
 			}
-			map.put("_tableName_", tableName);
 		}
+		map.put("_tableName_", tableName);
 		for (Field f : fields) {
 			// 拿到这个实体的主键名
 			if (f.getAnnotation(ID.class) != null) {
@@ -57,8 +55,8 @@ public class DefaultNameHandler implements NameHandler {
 				} else {
 					keyName = f.getName();
 				}
-				map.put("_keyName_", keyName);
 			}
+			map.put("_keyName_", keyName);
 			if (f.getAnnotation(Column.class) != null) {
 				map.put(f.getName(), f.getAnnotation(Column.class).value());
 			} else {

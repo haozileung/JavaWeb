@@ -95,7 +95,7 @@ public class SqlAssembleUtils {
 					autoField.getName());
 			Object value = autoField.getValues()[0];
 
-			sql.append(columnName);
+			sql.append("`").append(columnName).append("`");
 			// 如果是主键，且是主键的值名称
 			if (StringUtils.equalsIgnoreCase(pkName, columnName)
 					&& autoField.getType() == AutoField.PK_VALUE_NAME) {
@@ -187,7 +187,7 @@ public class SqlAssembleUtils {
 				continue;
 			}
 
-			sql.append(columnName).append(" ")
+			sql.append("`").append(columnName).append("` ")
 					.append(autoField.getFieldOperator()).append(" ");
 			if (ArrayUtils.isEmpty(autoField.getValues())
 					|| autoField.getValues()[0] == null) {
@@ -303,7 +303,7 @@ public class SqlAssembleUtils {
 							StringUtils.trim(autoField.getFieldOperator()))) {
 
 				// in，not in的情况
-				sql.append(columnName).append(" ")
+				sql.append("`").append(columnName).append("` ")
 						.append(autoField.getFieldOperator()).append(" ");
 				sql.append("(");
 				for (int j = 0; j < values.length; j++) {
@@ -316,18 +316,18 @@ public class SqlAssembleUtils {
 				sql.append(")");
 			} else if (values == null) {
 				// null 值
-				sql.append(columnName).append(" ")
+				sql.append("`").append(columnName).append("` ")
 						.append(autoField.getFieldOperator()).append(" NULL");
 			} else if (values.length == 1) {
 				// 一个值 =
-				sql.append(columnName).append(" ")
+				sql.append("`").append(columnName).append("` ")
 						.append(autoField.getFieldOperator()).append(" ?");
 				params.add(values[0]);
 			} else {
 				// 多个值，or的情况
 				sql.append("(");
 				for (int j = 0; j < values.length; j++) {
-					sql.append(columnName).append(" ")
+					sql.append("`").append(columnName).append("` ")
 							.append(autoField.getFieldOperator()).append(" ?");
 					params.add(values[j]);
 					if (j != values.length - 1) {
@@ -355,8 +355,8 @@ public class SqlAssembleUtils {
 		params.add(id);
 		String tableName = nameHandler.getTableName(clazz);
 		String primaryName = nameHandler.getPKName(clazz);
-		String sql = "DELETE FROM " + tableName + " WHERE " + primaryName
-				+ " = ?";
+		String sql = "DELETE FROM " + tableName + " WHERE `" + primaryName
+				+ "` = ?";
 		return new BoundSql(sql, primaryName, params);
 	}
 
@@ -592,9 +592,13 @@ public class SqlAssembleUtils {
 			}
 
 			String columnName = nameHandler.getColumnName(clazz, fieldName);
+			columns.append("`");
 			columns.append(columnName);
+			columns.append("`");
 			columns.append(" AS ");
+			columns.append("'");
 			columns.append(fieldName);
+			columns.append("'");
 			columns.append(",");
 		}
 		columns.deleteCharAt(columns.length() - 1);

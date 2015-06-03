@@ -300,19 +300,27 @@ public class JdbcDaoJdbcTemplateImpl implements JdbcDao {
 		return writeJdbcTemplate.update(sql, args);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T queryForObject(final String sql, final Object[] args,
 			final Class<T> mappedClass) {
-		T obj = null;
-		obj = readJdbcTemplate.queryForObject(sql, args,
-				getRowMapper(mappedClass));
-		return obj;
+		// 采用list方式查询，当记录不存在时返回null而不会抛出异常
+		List<?> list = readJdbcTemplate.query(sql, args,
+				this.getRowMapper(mappedClass));
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		return (T) list.iterator().next();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T queryForSimpleObject(final String sql, final Object[] args,
 			final Class<T> mappedClass) {
-		T obj = null;
-		obj = readJdbcTemplate.queryForObject(sql, args, mappedClass);
-		return obj;
+
+		List<?> list = readJdbcTemplate.queryForList(sql, args, mappedClass);
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		return (T) list.iterator().next();
 	}
 
 	public <T> List<T> queryForSimpleObjectList(String sql, Object[] args,

@@ -272,5 +272,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<artifactId>web</artifactId>
+	<artifactId>backend</artifactId>
 </project>

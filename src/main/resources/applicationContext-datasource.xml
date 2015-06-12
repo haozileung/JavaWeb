@@ -63,7 +63,7 @@
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com\.haozileung\.manager\.service\..*Impl.*</value>
+				<value>com.haozileung</value>
 			</list>
 		</property>
 	</bean>
